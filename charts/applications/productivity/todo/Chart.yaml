@@ -1,0 +1,15 @@
+apiVersion: v2
+name: todo
+description: Petri Dish Todo Application - FastAPI backend with React frontend for hierarchical task management
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+home: https://github.com/jgough-essextec/the_petri_dish
+keywords:
+  - todo
+  - productivity
+  - fastapi
+  - react
+  - task-management
+maintainers:
+  - name: Roy Bales

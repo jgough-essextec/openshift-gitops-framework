@@ -1,0 +1,86 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: homelab-platform-simple
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  generators:
+    - matrix:
+        generators:
+          # Use clusters generator to find ACM-managed clusters
+          - clusters:
+              selector:
+                matchLabels:
+                  vendor: OpenShift
+                matchExpressions:
+                  - key: name
+                    operator: NotIn
+                    values: [in-cluster, local-cluster]
+          # List of platform components to deploy
+          - list:
+              elements:
+                - component: external-secrets-operator
+                  syncWave: "0"
+                  createNamespace: "true"
+                - component: certificates
+                  syncWave: "10"
+                  createNamespace: "true"
+                - component: openshift-nfd
+                  syncWave: "20"
+                  createNamespace: "true"
+                - component: vertical-pod-autoscaler
+                  syncWave: "20"
+                  createNamespace: "false"
+                - component: goldilocks
+                  syncWave: "30"
+                  createNamespace: "true"
+                - component: gatus
+                  syncWave: "40"
+                  createNamespace: "true"
+                - component: generic-device-plugin
+                  syncWave: "30"
+                  createNamespace: "true"
+                - component: snapshot-finalizer-remover
+                  syncWave: "200"
+                  createNamespace: "true"
+  template:
+    metadata:
+      name: '{{name}}-{{component}}'
+      namespace: openshift-gitops
+      labels:
+        app: '{{component}}'
+        type: platform
+        cluster: '{{name}}'
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{syncWave}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/rbales79/argo-apps.git
+        targetRevision: framework-dev
+        path: 'charts/platform/{{component}}'
+        helm:
+          releaseName: '{{component}}'
+      destination:
+        server: '{{server}}'
+        namespace: '{{component}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace={{createNamespace}}
+          - ServerSideApply=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+      ignoreDifferences:
+        - group: apps
+          kind: Deployment
+          jsonPointers:
+            - /spec/replicas

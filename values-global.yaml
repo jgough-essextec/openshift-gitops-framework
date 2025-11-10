@@ -1,0 +1,236 @@
+---
+# Global pattern configuration
+# This file defines defaults for all clusters in the pattern
+
+global:
+  # Pattern identification
+  pattern: openshift-agentic-platform
+  version: 1.0.0
+
+  # Git repository configuration
+  gitops:
+    repo: https://github.com/rbales79/argo-apps
+    branch: framework-dev
+    targetRevision: HEAD
+    syncPolicy: automated
+
+  # Common cluster configuration
+  domain: roybales.com
+  timezone: America/New_York
+
+  # Container registry
+  imageRegistry: quay.io
+  imageNamespace: rbales79
+
+  # Common components (deployed to ALL clusters by default)
+  # These are from charts/platform/ (formerly charts/base/)
+  commonComponents:
+    # Security & Secrets
+    externalSecrets:
+      enabled: true
+      backend: infisical
+      syncInterval: 1h
+    certManager:
+      enabled: true
+      acme:
+        enabled: true
+        email: rbales79@gmail.com
+        server: https://acme-v02.api.letsencrypt.org/directory
+
+    # Node Feature Discovery
+    nfd:
+      enabled: true
+
+    # Resource Management
+    vpa:
+      enabled: true
+    goldilocks:
+      enabled: true
+
+    # Monitoring & Health
+    gatus:
+      enabled: true
+
+    # Custom Error Pages
+    customErrorPages:
+      enabled: true
+
+    # Generic Device Plugin
+    genericDevicePlugin:
+      enabled: false  # Enable per-cluster as needed
+
+  # Storage configuration
+  # Multiple storage providers available in platform layer
+  # TrueNAS is the DEFAULT for all clusters
+  storage:
+    default:
+      provider: truenas
+      className: truenas-iscsi
+
+    # TrueNAS configuration (default storage provider - platform layer)
+    truenas:
+      enabled: true
+      server: truenas.roybales.com
+      api:
+        protocol: https
+        port: 443
+      iscsi:
+        portal: truenas.roybales.com:3260
+        namePrefix: cluster-
+      zfs:
+        datasetParentName: volume1/iscsi/vols
+        detachedSnapshotsDatasetParentName: volume1/iscsi/snaps
+      nfs:
+        enabled: true
+        server: nas
+        basePath: /volume1
+        mediaPath: /volume1/media
+
+    # Synology configuration (alternative storage provider - platform layer)
+    synology:
+      enabled: false  # Disabled by default, enable per cluster if using Synology NAS
+      server: synology.roybales.com
+      api:
+        protocol: https
+        port: 5001
+
+    # ODF/OCS configuration (for compact/full topologies - topology layer)
+    odf:
+      enabled: false  # Disabled by default, enabled in compact/full values
+      nodeCount: 3
+      storageClassName: ocs-storagecluster-ceph-rbd
+
+    # MetalLB (typically for SNO, not needed for compact/full)
+    metallb:
+      enabled: false  # Disabled by default - using native OpenShift networking
+
+  # Platform components defaults
+  platformComponents:
+    # Multi-cluster Management (moved to platform for DRY - can be on any cluster)
+    acm:
+      enabled: false  # Enable only on hub cluster(s)
+      version: "2.12"
+    multiclusterEngine:
+      enabled: false  # Enable only on hub cluster(s)
+
+    # Hardware support
+    amdGpu:
+      enabled: false  # Enable per cluster if AMD GPU present
+    intelGpu:
+      enabled: false  # Enable per cluster if Intel GPU present
+
+    # Backup
+    kasten:
+      enabled: false  # Enable per cluster as needed
+
+    # High Availability
+    keepalived:
+      enabled: false  # Enable per cluster as needed
+
+  # AMD GPU Operator node labeling defaults (Radeon Vega 8 integrated GPU)
+  # Override per cluster with actual node names
+  amdGpuOperator:
+    nodeLabeling:
+      enabled: false
+      nodeNames: []
+      additionalLabels:
+        amd.com/gpu.family: gfx902
+        amd.com/gpu.model: RadeonVega8
+
+  # Application stack defaults (pattern-wide)
+  applicationStacks:
+    # AI / ML Applications
+    ai:
+      enabled: false
+      apps:
+        # - litellm            # AI proxy/router for LLM APIs
+        # - ollama             # Local LLM inference server
+        # - open-webui         # Web interface for Ollama/LiteLLM
+
+    # Media Management Applications
+    media:
+      enabled: false
+      apps:
+        # - bazarr             # Subtitle management
+        # - flaresolverr       # Cloudflare bypass proxy
+        # - gaps               # Missing movie finder for Plex
+        # - huntarr            # Bounty manager for *arr apps
+        # - jellyfin           # Alternative media server
+        # - jellyseerr         # Request management for Jellyfin
+        # - kapowarr           # Comic book collection manager
+        # - kavita             # Ebook/comic reader
+        # - lidarr             # Music collection manager
+        # - metube             # YouTube downloader
+        # - overseerr          # Request management for Plex/Jellyfin
+        # - pinchflat          # YouTube channel archiver
+        # - plex               # Media server (primary)
+        # - posterizarr        # Poster/artwork management
+        # - prowlarr           # Indexer manager
+        # - radarr             # Movie collection manager
+        # - readarr            # Ebook collection manager
+        # - recyclarr          # TRaSH guides sync for *arr apps
+        # - sabnzbd            # Usenet downloader
+        # - sonarr             # TV series collection manager
+        # - tautulli           # Plex monitoring and statistics
+
+    # Home Automation Applications
+    homeAutomation:
+      enabled: false
+      apps:
+        # - emqx-operator      # MQTT broker operator
+        # - home-assistant     # Home automation platform
+        # - node-red           # Flow-based automation
+        # - zwavejs2mqtt       # Z-Wave to MQTT bridge
+
+    # Productivity Applications
+    productivity:
+      enabled: false
+      apps:
+        # - bookmarks        # Bookmark manager
+        # - cyberchef        # Data transformation tool
+        # - excalidraw       # Collaborative whiteboard
+        # - it-tools         # Developer utilities collection
+        # - startpunkt       # Customizable startpage
+        # - terraform-enterprise  # Terraform private registry
+        # - todo             # Hierarchical task manager (FastAPI + React)
+
+    # Infrastructure Applications
+    infrastructure:
+      enabled: false
+      apps:
+        # - adsb               # Aircraft tracking (FlightAware/ADS-B)
+        # - glue-worker        # Custom Python automation workers
+        # - paperless-ai       # AI-powered document processing
+        # - paperless-gpt      # GPT integration for Paperless
+        # - paperless-ngx      # Document management system
+
+  # Secrets backend configuration
+  secrets:
+    backend: infisical
+    infisical:
+      apiUrl: https://app.infisical.com/api
+      projectSlug: hub
+      environmentSlug: prod
+    vault:
+      address: https://vault.example.com
+
+  # Network configuration defaults
+  network:
+    lan:
+      defaultGateway: 192.168.1.1
+      subnet: 192.168.1.0/24
+
+  # OpenShift configuration
+  openshift:
+    version: "4.20"
+    channel: fast
+
+  # Kasten K10 backup (optional)
+  backup:
+    kasten:
+      enabled: false
+
+  # Node labeling and taints
+  nodeConfiguration:
+    labels: {}
+    taints: {}

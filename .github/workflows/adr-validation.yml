@@ -1,0 +1,45 @@
+name: ADR Validation
+
+on:
+  pull_request:
+    paths:
+      - 'docs/decisions/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/decisions/**'
+  workflow_dispatch:
+
+jobs:
+  validate-adrs:
+    name: Validate ADRs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check ADR numbering
+        run: python3 scripts/adr-validation/check_adr_numbering.py
+
+      - name: Check ADR metadata
+        run: python3 scripts/adr-validation/check_adr_metadata.py
+
+      - name: Validate ADR structure
+        run: python3 scripts/adr-validation/validate_adr.py
+        continue-on-error: true  # Allow warnings but show them
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## ADR Validation Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Numbering validation completed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Metadata validation completed" >> $GITHUB_STEP_SUMMARY
+          echo "ℹ️ Structure validation completed (warnings may exist)" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,65 @@
+{{- if .Values.clusterGroup.applicationStacks.productivity.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ .Values.clusterGroup.name }}-productivity
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+spec:
+  ignoreApplicationDifferences:
+    - jsonPointers:
+        - /spec/syncPolicy
+  goTemplate: true
+  generators:
+    - list:
+        elements:
+          {{- range .Values.clusterGroup.applicationStacks.productivity.apps }}
+          - name: {{ . }}
+            {{- if has . (list "bookmarks" "cyberchef" "excalidraw" "it-tools" "startpunkt") }}
+            gatus:
+              enabled: true
+            {{- end }}
+          {{- end }}
+  template:
+    metadata:
+      name: '{{ "{{" }} .name {{ "}}" }}'
+      namespace: openshift-gitops
+    spec:
+      ignoreDifferences:
+        - kind: Application
+          group: argoproj.io
+          jsonPointers:
+            - /spec/syncPolicy/automated
+      project: default
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ "{{" }} .name {{ "}}" }}'
+      syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            goldilocks.fairwinds.com/enabled: "true"
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+      source:
+        repoURL: {{ .Values.spec.source.repoURL }}
+        path: charts/applications/productivity/{{ "{{" }} .name {{ "}}" }}
+        targetRevision: {{ .Values.spec.source.targetRevision }}
+        helm:
+          valuesObject:
+            spec:
+{{ .Values.spec | toYaml | nindent 14 }}
+            # Pass cluster configuration
+            cluster:
+{{ .Values.clusterGroup | toYaml | nindent 14 }}
+            # Gatus configuration
+            gatus:
+              enabled: '{{ "{{" }} default false .gatus.enabled {{ "}}" }}'
+              interval: '{{ "{{" }} default "5m" .gatus.interval {{ "}}" }}'
+              conditions:
+                - "[STATUS] == 200"
+                - "[RESPONSE_TIME] < 3000"
+{{- end }}

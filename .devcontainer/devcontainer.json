@@ -1,0 +1,40 @@
+{
+  "name": "DevContainer",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "mounts": [
+    "source=/root/.kube,target=/root/.kube,type=bind,consistency=cached"
+  ],
+  "postAttachCommand": [
+    "/bin/bash",
+    ".devcontainer/post-install.sh"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        }
+      },
+      "extensions": [
+        "bpruitt-goddard.mermaid-markdown-syntax-highlighting",
+        "DavidAnson.vscode-markdownlint",
+        "esbenp.prettier-vscode",
+        "mhutchie.git-graph",
+        "redhat.vscode-yaml",
+        "ltex-plus.vscode-ltex-plus",
+        "gaspardruan.taboutx",
+        "fcrespo82.markdown-table-formatter",
+        "mikestead.dotenv",
+        "editorconfig.editorconfig",
+        "task.vscode-task",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "tim-koehler.helm-intellisense"
+      ]
+    }
+  }
+}

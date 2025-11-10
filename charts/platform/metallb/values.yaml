@@ -1,0 +1,69 @@
+# Default values for metallb
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# CRD Installation
+crds:
+  install: true
+
+# IP Address Pools (replaces deprecated ConfigMap)
+ipAddressPools:
+  - name: default
+    addresses:
+      - 192.168.100.0/24
+    autoAssign: true
+    avoidBuggyIPs: true
+
+# L2 Advertisements (replaces deprecated ConfigMap)
+l2Advertisements:
+  - name: default
+    ipAddressPools:
+      - default
+
+# Configure the MetalLB controller
+controller:
+  enabled: true
+  image:
+    repository: quay.io/metallb/controller
+    tag: v0.13.12
+    pullPolicy: IfNotPresent
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  logLevel: info
+  webhookMode: enabled
+
+# Configure the MetalLB speaker
+speaker:
+  enabled: true
+  image:
+    repository: quay.io/metallb/speaker
+    tag: v0.13.12
+    pullPolicy: IfNotPresent
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  logLevel: info
+  # Node selector for speaker daemonset
+  nodeSelector: {}
+  # Tolerations for speaker daemonset
+  tolerations: []
+
+# Configure the MetalLB namespace
+namespace:
+  create: true
+  name: metallb-system
+
+# Configure the MetalLB service account
+serviceAccount:
+  create: true
+  name: metallb-system
+  annotations: {}

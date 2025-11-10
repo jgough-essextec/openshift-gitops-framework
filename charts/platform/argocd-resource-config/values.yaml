@@ -1,0 +1,77 @@
+cluster:
+  top_level_domain: roybales.com
+  name: cluster
+  admin_email: rbales79@gmail.com
+  timezone: America/New_York
+
+application:
+  name: ArgoCD Resource Config
+  group: tweaks
+  icon: mdi:git
+  iconColor: "#EF7B4D"
+  image: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
+  description: "Configures OpenShift GitOps ArgoCD resource limits for optimal performance"
+  location: 200
+
+# ArgoCD Resource Configuration
+# Optimized resource limits for OpenShift GitOps components
+argocd:
+  # Application Controller - Main reconciliation engine
+  controller:
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2Gi
+      limits:
+        cpu: "4"
+        memory: 8Gi
+
+  # ApplicationSet Controller - Manages ApplicationSets
+  applicationSet:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: "2"
+        memory: 1Gi
+
+  # Repo Server - Git repository operations
+  repo:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: "1"
+        memory: 1Gi
+
+  # Server - API and UI
+  server:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+  # Redis - Caching
+  redis:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+  # Dex - SSO/OAuth
+  dex:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi

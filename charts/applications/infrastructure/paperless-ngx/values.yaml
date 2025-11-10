@@ -1,0 +1,75 @@
+cluster:
+  top_level_domain: roybales.com
+  name: cluster
+  admin_email: rbales79@gmail.com
+  timezone: America/New_York
+
+application:
+  name: Paperless-ngx
+  group: Paperless
+  icon: mdi:file-document-multiple
+  iconColor: "#2196F3"
+  image: "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/resources/logo/web/svg/square.svg"
+  description: "Document management system with OCR"
+  port: 8000
+  location: 100
+
+pods:
+  main:
+    image:
+      repository: ghcr.io/paperless-ngx/paperless-ngx
+      # renovate: datasource=docker depName=ghcr.io/paperless-ngx/paperless-ngx versioning=semver
+      tag: "2.13.5"
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+      requests:
+        cpu: 500m
+        memory: 2Gi
+  redis:
+    image:
+      repository: docker.io/library/redis
+      # renovate: datasource=docker depName=docker.io/library/redis versioning=semver
+      tag: "7.4.1-alpine"
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+
+persistence:
+  data:
+    size: 50Gi
+    # storageClass: ""  # Optional: specify storage class, or leave empty to use cluster default
+  media:
+    size: 100Gi
+    # storageClass: ""  # Optional: specify storage class, or leave empty to use cluster default
+  consume:
+    size: 20Gi
+    # storageClass: ""  # Optional: specify storage class, or leave empty to use cluster default
+
+env:
+  PAPERLESS_URL: "https://paperless-ngx.apps.{{ .Values.cluster.name }}.{{ .Values.cluster.top_level_domain }}"
+  PAPERLESS_TIME_ZONE: "{{ .Values.cluster.timezone }}"
+  PAPERLESS_REDIS: "redis://localhost:6379"
+  PAPERLESS_OCR_LANGUAGE: "eng"
+  PAPERLESS_TIKA_ENABLED: "1"
+  PAPERLESS_TIKA_ENDPOINT: "http://localhost:9998"
+  PAPERLESS_TIKA_GOTENBERG_ENDPOINT: "http://localhost:3000"
+
+route:
+  # host is constructed in template as: paperless-ngx.apps.<cluster.name>.<cluster.top_level_domain>
+  tls:
+    enabled: true
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
+gatus:
+  enabled: true
+  interval: 5m
+  conditions:
+    - "[STATUS] == 200"
+    - "[RESPONSE_TIME] < 3000"

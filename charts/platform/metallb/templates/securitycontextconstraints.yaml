@@ -1,0 +1,47 @@
+{{- if .Capabilities.APIVersions.Has "security.openshift.io/v1" }}
+---
+apiVersion: security.openshift.io/v1
+kind: SecurityContextConstraints
+metadata:
+  name: metallb-speaker
+  labels:
+    app.kubernetes.io/name: metallb
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    kubernetes.io/description: "metallb-speaker allows the MetalLB speaker daemonset to use host networking for L2 announcements"
+allowHostDirVolumePlugin: false
+allowHostIPC: false
+allowHostNetwork: true
+allowHostPID: false
+allowHostPorts: true
+allowPrivilegedContainer: false
+allowPrivilegeEscalation: false
+allowedCapabilities:
+- NET_RAW
+defaultAddCapabilities: []
+fsGroup:
+  type: MustRunAs
+groups: []
+priority: null
+readOnlyRootFilesystem: false
+requiredDropCapabilities:
+- ALL
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: MustRunAs
+seccompProfiles:
+- runtime/default
+supplementalGroups:
+  type: RunAsAny
+users:
+- system:serviceaccount:{{ .Values.namespace.name }}:{{ .Values.serviceAccount.name }}
+volumes:
+- configMap
+- downwardAPI
+- emptyDir
+- projected
+- secret
+{{- end }}

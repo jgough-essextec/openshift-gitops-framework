@@ -1,0 +1,81 @@
+---
+# Placement: platform-placement-sno
+# Selects only SNO (Single Node OpenShift) clusters for platform deployment
+# Use this if you want different platform configurations for SNO vs multi-node clusters
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: platform-placement-sno
+  namespace: openshift-gitops
+  labels:
+    app: platform
+    topology: sno
+spec:
+  clusterSets:
+    - homelab
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchLabels:
+            topology: sno
+---
+# Placement: platform-placement-multinode
+# Selects multi-node clusters (compact or full topology)
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: platform-placement-multinode
+  namespace: openshift-gitops
+  labels:
+    app: platform
+    topology: multinode
+spec:
+  clusterSets:
+    - homelab
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchExpressions:
+            - key: topology
+              operator: In
+              values:
+                - compact
+                - full
+---
+# Placement: platform-placement-prod
+# Selects only production clusters
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: platform-placement-prod
+  namespace: openshift-gitops
+  labels:
+    app: platform
+    environment: production
+spec:
+  clusterSets:
+    - homelab
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchLabels:
+            name: prod
+---
+# Placement: platform-placement-test
+# Selects only test/dev clusters
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: platform-placement-test
+  namespace: openshift-gitops
+  labels:
+    app: platform
+    environment: test
+spec:
+  clusterSets:
+    - homelab
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchLabels:
+            name: test

@@ -1,0 +1,51 @@
+cluster:
+  top_level_domain: roybales.com
+  name: cluster
+  admin_email: rbales79@gmail.com
+  timezone: America/New_York
+
+application:
+  name: Glue Worker
+  group: Paperless
+  icon: mdi:webhook
+  iconColor: "#9C27B0"
+  image: "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/resources/logo/web/svg/square.svg"
+  description: "Flask webhook orchestrator for Paperless document pipeline"
+  port: 5000
+  location: 102
+
+pods:
+  main:
+    image:
+      repository: ghcr.io/rbales79/paperless-glue-worker
+      # renovate: datasource=docker depName=ghcr.io/rbales79/paperless-glue-worker versioning=semver
+      tag: "latest"
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+      requests:
+        cpu: 250m
+        memory: 512Mi
+
+env:
+  PAPERLESS_API_URL: "http://paperless-ngx.paperless-ngx.svc.cluster.local:8000"
+  PAPERLESS_GPT_URL: "http://paperless-gpt.paperless-gpt.svc.cluster.local:8080"
+  PAPERLESS_AI_URL: "http://paperless-ai.paperless-ai.svc.cluster.local:8000"
+  FLASK_ENV: "production"
+  ENABLE_GPT_ROUTING: "true"
+  ENABLE_AI_REINDEX: "true"
+
+route:
+  # host is constructed in template as: glue-worker.apps.<cluster.name>.<cluster.top_level_domain>
+  tls:
+    enabled: true
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
+gatus:
+  enabled: true
+  interval: 5m
+  conditions:
+    - "[STATUS] == 200"
+    - "[RESPONSE_TIME] < 1000"

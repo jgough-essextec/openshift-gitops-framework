@@ -1,0 +1,117 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: homelab-platform
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+spec:
+  generators:
+    # Use ACM cluster decision resource to target clusters
+    - clusterDecisionResource:
+        labelSelector:
+          matchLabels:
+            cluster.open-cluster-management.io/placement: platform-placement-1
+        requeueAfterSeconds: 180
+  template:
+    metadata:
+      name: '{{name}}-platform'
+      annotations:
+        argocd.argoproj.io/sync-wave: "50"
+      labels:
+        cluster: '{{name}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/rbales79/argo-apps
+        targetRevision: framework-dev
+        path: charts/platform
+        helm:
+          releaseName: '{{name}}-platform'
+          # Pass cluster-specific values based on managed cluster name
+          # These values should match your cluster configurations
+          valuesObject:
+            clusterGroup:
+              name: '{{name}}'
+              platformComponents:
+                externalSecrets:
+                  enabled: true
+                certManager:
+                  enabled: true
+                vpa:
+                  enabled: true
+                goldilocks:
+                  enabled: true
+                gatus:
+                  enabled: true
+                nfd:
+                  enabled: true
+                customErrorPages:
+                  enabled: true
+                genericDevicePlugin:
+                  enabled: true
+                snapshotFinalizerRemover:
+                  enabled: true
+                # Conditionally enable based on cluster
+                # For test cluster, might want to disable some components
+                keepalived:
+                  enabled: false  # Disable on managed clusters
+                amdGpu:
+                  enabled: false  # Likely not needed on test
+                argoCdResourceConfig:
+                  enabled: false  # Only on hub
+              storage:
+                # Configure based on your storage setup per cluster
+                truenas:
+                  enabled: true
+                  iscsi:
+                    namePrefix: '{{name}}-'
+                  zfs:
+                    datasetParentName: 'volume1/iscsi/{{name}}/vols'
+                    detachedSnapshotsDatasetParentName: 'volume1/iscsi/{{name}}/snaps'
+                synology:
+                  enabled: false
+                metallb:
+                  enabled: false
+                default:
+                  className: truenas-iscsi
+                  provider: truenas
+              # Cluster-specific configuration
+              cluster:
+                name: '{{name}}'
+                # These should match your cluster configurations
+                # You may want to use cluster labels or create separate ApplicationSets
+                top_level_domain: roybales.com
+                admin_email: rbales79@gmail.com
+                timezone: America/New_York
+              externalSecrets:
+                secret: infisical-auth-secret
+                infisical:
+                  projectSlug: '{{name}}'  # Use cluster name as project slug
+                  environmentSlug: prod
+              network:
+                lan:
+                  defaultGateway: 192.168.1.1
+                  subnet: 192.168.1.0/24
+      destination:
+        # This is the key - deploy to the managed cluster, not hub
+        server: '{{server}}'
+        namespace: openshift-gitops
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+      # Ignore differences that might vary between clusters
+      ignoreDifferences:
+        - group: argoproj.io
+          kind: Application
+          jsonPointers:
+            - /spec/syncPolicy/automated
+        - kind: Namespace
+          jsonPointers:
+            - /metadata/labels
+            - /metadata/annotations

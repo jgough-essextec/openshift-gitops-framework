@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: test-simple-platform
+  namespace: openshift-gitops
+spec:
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - clusterName: prod
+                  server: https://api.sno.roybales.com:6443
+                - clusterName: test
+                  server: https://api.test.roybales.com:6443
+          - list:
+              elements:
+                - name: external-secrets-operator
+                  syncWave: "0"
+                - name: certificates
+                  syncWave: "10"
+  template:
+    metadata:
+      name: '{{clusterName}}-{{name}}'
+      namespace: openshift-gitops
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/rbales79/argo-apps.git
+        targetRevision: framework-dev
+        path: 'charts/platform/{{name}}'
+      destination:
+        server: '{{server}}'
+        namespace: '{{name}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

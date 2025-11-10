@@ -1,0 +1,59 @@
+{{- if .Values.ipAddressPools }}
+{{- range .Values.ipAddressPools }}
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Values.namespace.name }}
+  labels:
+    app.kubernetes.io/name: metallb
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+spec:
+  addresses:
+  {{- range .addresses }}
+  - {{ . }}
+  {{- end }}
+  {{- if .autoAssign }}
+  autoAssign: {{ .autoAssign }}
+  {{- end }}
+  {{- if .avoidBuggyIPs }}
+  avoidBuggyIPs: {{ .avoidBuggyIPs }}
+  {{- end }}
+{{- end }}
+{{- end }}
+---
+{{- if .Values.l2Advertisements }}
+{{- range .Values.l2Advertisements }}
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Values.namespace.name }}
+  labels:
+    app.kubernetes.io/name: metallb
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+spec:
+  {{- if .ipAddressPools }}
+  ipAddressPools:
+  {{- range .ipAddressPools }}
+  - {{ . }}
+  {{- end }}
+  {{- end }}
+  {{- if .ipAddressPoolSelectors }}
+  ipAddressPoolSelectors:
+  {{- toYaml .ipAddressPoolSelectors | nindent 2 }}
+  {{- end }}
+  {{- if .nodeSelectors }}
+  nodeSelectors:
+  {{- toYaml .nodeSelectors | nindent 2 }}
+  {{- end }}
+  {{- if .interfaces }}
+  interfaces:
+  {{- range .interfaces }}
+  - {{ . }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}

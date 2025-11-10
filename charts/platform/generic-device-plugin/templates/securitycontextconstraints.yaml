@@ -1,0 +1,50 @@
+---
+kind: SecurityContextConstraints
+apiVersion: security.openshift.io/v1
+metadata:
+  name: generic-device-plugin-scc
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
+    kubernetes.io/description: |
+      Custom SCC for generic-device-plugin that requires privileged access to hostPath volumes.
+      Allows privileged containers and host access needed for device plugin functionality.
+priority: 11
+# Allow running as root
+runAsUser:
+  type: RunAsAny
+# Allow any filesystem groups
+fsGroup:
+  type: RunAsAny
+# Allow any supplemental groups
+supplementalGroups:
+  type: RunAsAny
+# SELinux context
+seLinuxContext:
+  type: RunAsAny
+# Volume types allowed - device plugins need hostPath
+volumes:
+  - configMap
+  - downwardAPI
+  - emptyDir
+  - hostPath
+  - persistentVolumeClaim
+  - projected
+  - secret
+# Security settings - device plugins need privileged access
+allowPrivilegedContainer: true
+allowPrivilegeEscalation: true
+allowHostDirVolumePlugin: true
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: false
+allowHostPorts: false
+# Capabilities - allow all for device plugin functionality
+defaultAddCapabilities: []
+requiredDropCapabilities: []
+allowedCapabilities:
+  - '*'
+allowedUnsafeSysctls: []
+readOnlyRootFilesystem: false
+# Users allowed to use this SCC
+users:
+  - system:serviceaccount:{{ .Release.Namespace }}:{{ .Release.Name }}

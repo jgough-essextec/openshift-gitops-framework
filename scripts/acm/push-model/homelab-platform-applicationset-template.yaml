@@ -1,0 +1,159 @@
+---
+# Editable ApplicationSet Template for ACM Multi-Cluster Deployment
+# This template provides all configurable options with inline comments
+# Copy and customize this file for your specific needs
+
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: homelab-platform  # EDIT: Change name as needed
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"  # EDIT: Adjust sync wave (0-200)
+spec:
+  generators:
+    # Cluster Decision Resource Generator - Targets clusters from ACM Placement
+    - clusterDecisionResource:
+        labelSelector:
+          matchLabels:
+            # EDIT: Change placement name to match your placement
+            cluster.open-cluster-management.io/placement: platform-placement-1
+        requeueAfterSeconds: 180  # EDIT: How often to check for cluster changes
+
+  template:
+    metadata:
+      name: '{{name}}-platform'  # EDIT: Application naming pattern
+      annotations:
+        argocd.argoproj.io/sync-wave: "50"
+      labels:
+        cluster: '{{name}}'
+        managed-by: acm
+
+    spec:
+      project: default  # EDIT: Change Argo CD project if needed
+
+      source:
+        # EDIT: Change repository details
+        repoURL: https://github.com/rbales79/argo-apps
+        targetRevision: framework-dev  # EDIT: Branch, tag, or HEAD
+        path: charts/platform  # EDIT: Path to chart
+
+        helm:
+          releaseName: '{{name}}-platform'
+
+          # VALUES CONFIGURATION
+          # EDIT: Customize values passed to each cluster
+          valuesObject:
+            clusterGroup:
+              name: '{{name}}'
+
+              # PLATFORM COMPONENTS
+              # EDIT: Enable/disable components per your needs
+              platformComponents:
+                externalSecrets:
+                  enabled: true
+                certManager:
+                  enabled: true
+                vpa:
+                  enabled: true
+                goldilocks:
+                  enabled: true
+                gatus:
+                  enabled: true
+                nfd:
+                  enabled: true
+                customErrorPages:
+                  enabled: true
+                genericDevicePlugin:
+                  enabled: true
+                snapshotFinalizerRemover:
+                  enabled: true
+                systemReservation:
+                  enabled: false  # Often not needed on managed clusters
+                keepalived:
+                  enabled: false  # Usually only on hub
+                amdGpu:
+                  enabled: false  # Enable if cluster has AMD GPU
+                intelGpu:
+                  enabled: false  # Enable if cluster has Intel GPU
+                kasten:
+                  enabled: false  # Backup solution
+                argoCdResourceConfig:
+                  enabled: false  # Usually only on hub
+
+              # STORAGE CONFIGURATION
+              # EDIT: Configure storage providers per cluster
+              storage:
+                truenas:
+                  enabled: true  # EDIT: Set based on cluster storage
+                  iscsi:
+                    namePrefix: '{{name}}-'  # Prefix for iSCSI volumes
+                  zfs:
+                    # EDIT: Update dataset paths
+                    datasetParentName: 'volume1/iscsi/{{name}}/vols'
+                    detachedSnapshotsDatasetParentName: 'volume1/iscsi/{{name}}/snaps'
+                synology:
+                  enabled: false  # EDIT: Enable if using Synology
+                  iscsi:
+                    namePrefix: '{{name}}-'
+                  # Add Synology-specific config here
+                metallb:
+                  enabled: false  # EDIT: Enable if using MetalLB
+                  # Add MetalLB IP pools here
+                default:
+                  className: truenas-iscsi  # EDIT: Default storage class
+                  provider: truenas
+
+              # CLUSTER CONFIGURATION
+              # EDIT: Update with your cluster details
+              cluster:
+                name: '{{name}}'
+                top_level_domain: roybales.com  # EDIT: Your domain
+                admin_email: rbales79@gmail.com  # EDIT: Admin email
+                timezone: America/New_York  # EDIT: Timezone
+
+              # EXTERNAL SECRETS
+              # EDIT: Configure secret management
+              externalSecrets:
+                secret: infisical-auth-secret  # EDIT: Secret name
+                infisical:
+                  projectSlug: '{{name}}'  # EDIT: Project per cluster
+                  environmentSlug: prod  # EDIT: Environment
+
+              # NETWORK CONFIGURATION
+              # EDIT: Network settings per cluster
+              network:
+                lan:
+                  defaultGateway: 192.168.1.1  # EDIT: Gateway IP
+                  subnet: 192.168.1.0/24  # EDIT: Subnet
+                loadbalancer-ips:
+                  # EDIT: Add LoadBalancer IPs if using MetalLB
+                  # plex: 192.168.1.200
+                  # emqx: 192.168.1.201
+
+      # DESTINATION
+      # Deploy to managed cluster (don't edit unless you know what you're doing)
+      destination:
+        server: '{{server}}'  # ACM provides this from cluster decision
+        namespace: openshift-gitops
+
+      # SYNC POLICY
+      syncPolicy:
+        automated:
+          prune: true  # EDIT: Set false to disable auto-pruning
+          selfHeal: true  # EDIT: Set false to disable self-healing
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true  # EDIT: Remove if having sync issues
+
+      # IGNORE DIFFERENCES
+      # Ignore expected differences between clusters
+      ignoreDifferences:
+        - group: argoproj.io
+          kind: Application
+          jsonPointers:
+            - /spec/syncPolicy/automated
+        - kind: Namespace
+          jsonPointers:
+            - /metadata/labels
+            - /metadata/annotations

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: argocd-resource-config
+description: A Helm chart for configuring OpenShift GitOps ArgoCD resource limits
+version: 1.0.0
+kubeVersion: ">=1.22.0-0"
+
+maintainers:
+  - name: Roy Bales
+    email: rbales79@gmail.com

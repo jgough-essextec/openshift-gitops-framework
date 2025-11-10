@@ -1,0 +1,202 @@
+---
+# Editable ApplicationSet Template for Individual Platform Components
+# This template uses a matrix generator to deploy specific components to specific clusters
+# Copy and customize this file for your specific needs
+
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: homelab-platform-components  # EDIT: Change name as needed
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+
+spec:
+  generators:
+    # Matrix Generator - Combines cluster selection with component list
+    - matrix:
+        generators:
+          # FIRST: Select clusters from ACM placement
+          - clusterDecisionResource:
+              labelSelector:
+                matchLabels:
+                  # EDIT: Change to match your placement
+                  cluster.open-cluster-management.io/placement: platform-placement-1
+              requeueAfterSeconds: 180
+
+          # SECOND: List of components to deploy
+          # EDIT: Add/remove/modify components as needed
+          - list:
+              elements:
+                # SECURITY & SECRETS (sync-wave 0)
+                - name: external-secrets-operator
+                  syncWave: "0"
+                  createNamespace: true
+                  enabled: true  # EDIT: Set to false to disable
+
+                # CERTIFICATES (sync-wave 10)
+                - name: certificates
+                  syncWave: "10"
+                  createNamespace: true
+                  enabled: true
+
+                # NODE MANAGEMENT (sync-wave 20)
+                - name: openshift-nfd
+                  syncWave: "20"
+                  createNamespace: true
+                  enabled: true
+
+                - name: vertical-pod-autoscaler
+                  syncWave: "20"
+                  createNamespace: false  # VPA uses openshift-vertical-pod-autoscaler
+                  enabled: true
+
+                # RESOURCE MANAGEMENT (sync-wave 30)
+                - name: goldilocks
+                  syncWave: "30"
+                  createNamespace: true
+                  enabled: true
+
+                - name: generic-device-plugin
+                  syncWave: "30"
+                  createNamespace: true
+                  enabled: false  # EDIT: Enable if using custom devices
+
+                # MONITORING & HEALTH (sync-wave 40)
+                - name: gatus
+                  syncWave: "40"
+                  createNamespace: true
+                  enabled: true
+
+                - name: custom-error-pages
+                  syncWave: "40"
+                  createNamespace: false  # Uses openshift-config
+                  enabled: true
+
+                # STORAGE (sync-wave 50)
+                - name: truenas
+                  syncWave: "50"
+                  createNamespace: true
+                  namespace: democratic-csi
+                  appName: '{{clusterName}}-truenas'
+                  enabled: true  # EDIT: Disable if not using TrueNAS
+
+                # - name: synology
+                #   syncWave: "50"
+                #   createNamespace: true
+                #   namespace: democratic-csi
+                #   appName: '{{clusterName}}-synology'
+                #   enabled: false  # EDIT: Enable if using Synology
+
+                # TWEAKS (sync-wave 200)
+                - name: snapshot-finalizer-remover
+                  syncWave: "200"
+                  createNamespace: true
+                  enabled: true
+
+                # GPU OPERATORS (uncomment and edit if needed)
+                # - name: amd-gpu-operator
+                #   syncWave: "40"
+                #   createNamespace: false
+                #   enabled: false
+
+                # - name: intel-gpu-operator
+                #   syncWave: "40"
+                #   createNamespace: false
+                #   enabled: false
+
+                # HIGH AVAILABILITY (uncomment and edit if needed)
+                # - name: keepalived-operator
+                #   syncWave: "40"
+                #   createNamespace: true
+                #   enabled: false
+
+                # BACKUP (uncomment and edit if needed)
+                # - name: k10-kasten-operator
+                #   syncWave: "50"
+                #   createNamespace: true
+                #   enabled: false
+
+  template:
+    metadata:
+      name: '{{clusterName}}-{{ default .name .appName }}'
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{ default "50" .syncWave }}'
+      labels:
+        cluster: '{{clusterName}}'
+        component: '{{ .name }}'
+        managed-by: acm
+
+    spec:
+      project: default  # EDIT: Change Argo CD project if needed
+
+      source:
+        # EDIT: Change repository details
+        repoURL: https://github.com/rbales79/argo-apps
+        targetRevision: framework-dev  # EDIT: Branch, tag, or HEAD
+        path: 'charts/platform/{{ .name }}'
+
+        helm:
+          releaseName: '{{ .name }}'
+
+          # VALUES CONFIGURATION
+          # EDIT: Customize values for each component
+          valuesObject:
+            cluster:
+              name: '{{clusterName}}'
+              top_level_domain: roybales.com  # EDIT: Your domain
+              admin_email: rbales79@gmail.com  # EDIT: Admin email
+              timezone: America/New_York  # EDIT: Timezone
+
+            # External Secrets config
+            externalSecrets:
+              secret: infisical-auth-secret
+              infisical:
+                projectSlug: '{{clusterName}}'
+                environmentSlug: prod
+
+            # Storage config
+            storage:
+              truenas:
+                enabled: true
+                iscsi:
+                  namePrefix: '{{clusterName}}-'
+                zfs:
+                  datasetParentName: 'volume1/iscsi/{{clusterName}}/vols'
+                  detachedSnapshotsDatasetParentName: 'volume1/iscsi/{{clusterName}}/snaps'
+              default:
+                className: truenas-iscsi
+                provider: truenas
+
+            # Network config
+            network:
+              lan:
+                defaultGateway: 192.168.1.1
+                subnet: 192.168.1.0/24
+
+            # Certificates config
+            certificates:
+              letsencrypt:
+                issuer: production  # or staging
+
+      destination:
+        server: '{{server}}'
+        namespace: '{{ default .name .namespace }}'
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace={{ if hasKey . "createNamespace" }}{{ .createNamespace }}{{ else }}true{{ end }}
+          - ServerSideApply=true
+
+      ignoreDifferences:
+        - group: argoproj.io
+          kind: Application
+          jsonPointers:
+            - /spec/syncPolicy/automated
+        - kind: Namespace
+          jsonPointers:
+            - /metadata/labels
+            - /metadata/annotations

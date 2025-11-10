@@ -1,0 +1,77 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: bootstrap-cluster-application
+  namespace: open-cluster-management-policies
+  annotations:
+    policy.open-cluster-management.io/standards: NIST SP 800-53
+    policy.open-cluster-management.io/categories: CM Configuration Management
+    policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
+spec:
+  disabled: false
+  remediationAction: enforce
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: create-bootstrap-application
+        spec:
+          remediationAction: enforce
+          severity: high
+          namespaceSelector:
+            exclude:
+              - kube-*
+            include:
+              - openshift-gitops
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: argoproj.io/v1alpha1
+                kind: Application
+                metadata:
+                  name: cluster
+                  namespace: openshift-gitops
+                  finalizers:
+                    - resources-finalizer.argocd.argoproj.io
+                spec:
+                  project: default
+                  source:
+                    repoURL: https://github.com/rbales79/argo-apps.git
+                    targetRevision: framework-dev
+                    # Uses ACM ClusterClaim to determine role path dynamically
+                    path: 'roles/{{hub fromClusterClaim "topology" hub}}'
+                    helm:
+                      valueFiles:
+                        # Uses ACM ClusterClaim to select correct values file
+                        - '../../clusters/individual-clusters/values-{{hub fromClusterClaim "name" hub}}.yaml'
+                  destination:
+                    server: https://kubernetes.default.svc
+                    namespace: openshift-gitops
+                  syncPolicy:
+                    automated:
+                      prune: true
+                      selfHeal: true
+                    syncOptions:
+                      - CreateNamespace=true
+                    retry:
+                      limit: 5
+                      backoff:
+                        duration: 5s
+                        factor: 2
+                        maxDuration: 3m
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: bootstrap-cluster-application-binding
+  namespace: open-cluster-management-policies
+placementRef:
+  name: homelab-clusters
+  apiGroup: apps.open-cluster-management.io
+  kind: PlacementRule
+subjects:
+  - name: bootstrap-cluster-application
+    apiGroup: policy.open-cluster-management.io
+    kind: Policy

@@ -1,0 +1,15 @@
+---
+# ManagedClusterSet: homelab
+# Groups managed clusters for RBAC and application targeting
+# Clusters are assigned via label: cluster.open-cluster-management.io/clusterset=homelab
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSet
+metadata:
+  name: homelab
+  annotations:
+    cluster.open-cluster-management.io/submariner-broker-ns: homelab-broker
+spec:
+  clusterSelector:
+    # ExclusiveClusterSetLabel requires explicit cluster assignment via labels
+    # Add clusters to this set with: oc label managedcluster <name> cluster.open-cluster-management.io/clusterset=homelab
+    selectorType: ExclusiveClusterSetLabel

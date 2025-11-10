@@ -1,0 +1,47 @@
+{{- if .Capabilities.APIVersions.Has "console.openshift.io/v1" }}
+---
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: "{{ .Release.Name }}-namespace-dashboard-link"
+  labels:
+    app.kubernetes.io/name: {{ .Values.application.name | lower | replace " " "-" }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  href: "https://{{ tpl .Values.route.hostname . }}"
+  location: NamespaceDashboard
+  namespaceDashboard:
+    namespaces:
+      - {{ .Values.application.name | lower | replace " " "-" }}
+  text: "Access Application"
+---
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: "{{ .Release.Name }}-application-menu-link"
+  labels:
+    app.kubernetes.io/name: {{ .Values.application.name | lower | replace " " "-" }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  href: "https://{{ tpl .Values.route.hostname . }}"
+  location: ApplicationMenu
+  applicationMenu:
+    section: {{ .Values.application.group | quote }}
+    imageURL: {{ .Values.application.image | quote }}
+  text: {{ .Values.application.name | quote }}
+---
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: "{{ .Release.Name }}-admin-console-link"
+  labels:
+    app.kubernetes.io/name: {{ .Values.application.name | lower | replace " " "-" }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  href: "https://{{ .Release.Name }}-console.{{ .Values.cluster.name }}.{{ .Values.cluster.top_level_domain }}"
+  location: NamespaceDashboard
+  namespaceDashboard:
+    namespaces:
+      - {{ .Values.application.name | lower | replace " " "-" }}
+  text: "Admin Console"
+{{- end }}

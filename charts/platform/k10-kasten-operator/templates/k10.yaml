@@ -1,0 +1,59 @@
+apiVersion: apik10.kasten.io/v1alpha1
+kind: K10
+metadata:
+  name: k10
+  namespace: kasten-io
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true,Retry=true
+spec:
+  auth:
+    basicAuth:
+      enabled: false
+    tokenAuth:
+      enabled: true
+  global:
+    persistence:
+{{- if .Values.kasten.storageClass }}
+      storageClass: {{ .Values.kasten.storageClass }}
+{{- else if .Values.cluster.storage.default.className }}
+      storageClass: {{ .Values.cluster.storage.default.className }}
+{{- end }}
+  metering:
+    mode: airgap
+  prometheus:
+    server:
+      enabled: false
+  grafana:
+    enabled: false
+  route:
+    enabled: true
+    # host: k10.apps.{{ .Values.cluster.name }}.{{ .Values.cluster.top_level_domain }}
+    tls:
+      enabled: true
+  excludedApps:
+    # Static system exclusions (non-OpenShift Kubernetes and infrastructure)
+    - bookmarks
+    - certificates
+    - cert-manager
+    - cert-manager-operator
+    - cluster-democratic-csi
+    - default
+    - democratic-csi
+    - external-secrets-operator
+    - keepalived-operator
+    - kube-node-lease
+    - kube-public
+    - kube-system
+    - startpunkt
+    - metallb-system
+    - openwebui
+    # OpenShift system namespaces (auto-generated from cluster)
+{{- $openshiftExclusions := .Files.Get "openshift-excluded-apps.yaml" | fromYaml }}
+{{- range $openshiftExclusions.excludedApps }}
+    - {{ . }}
+{{- end }}
+    # Custom user-defined exclusions
+{{- range .Values.kasten.excludedApps }}
+    - {{ . }}
+{{- end }}

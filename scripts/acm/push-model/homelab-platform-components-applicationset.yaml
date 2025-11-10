@@ -1,0 +1,128 @@
+---
+# This ApplicationSet deploys individual platform components to managed clusters
+# Use this if you want more granular control over which components are deployed
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: homelab-platform-components
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+spec:
+  generators:
+    # Matrix generator - combines cluster selection with component list
+    - matrix:
+        generators:
+          # First: Select clusters from ACM placement
+          - clusterDecisionResource:
+              configMapRef: acm-placement
+              labelSelector:
+                matchLabels:
+                  cluster.open-cluster-management.io/placement: platform-placement-1
+              requeueAfterSeconds: 180
+          # Second: List of platform components to deploy
+          - list:
+              elements:
+                - name: external-secrets-operator
+                  syncWave: "0"
+                  createNamespace: true
+                  enabled: true
+                - name: certificates
+                  syncWave: "10"
+                  createNamespace: true
+                  enabled: true
+                - name: openshift-nfd
+                  syncWave: "20"
+                  createNamespace: true
+                  enabled: true
+                - name: vertical-pod-autoscaler
+                  syncWave: "20"
+                  createNamespace: false
+                  enabled: true
+                - name: goldilocks
+                  syncWave: "30"
+                  createNamespace: true
+                  enabled: true
+                - name: gatus
+                  syncWave: "40"
+                  createNamespace: true
+                  enabled: true
+                - name: custom-error-pages
+                  syncWave: "40"
+                  createNamespace: false
+                  enabled: true
+                - name: generic-device-plugin
+                  syncWave: "30"
+                  createNamespace: true
+                  enabled: true
+                - name: truenas
+                  syncWave: "50"
+                  createNamespace: true
+                  namespace: democratic-csi
+                  appName: '{{clusterName}}-truenas'
+                  enabled: true
+                - name: snapshot-finalizer-remover
+                  syncWave: "200"
+                  createNamespace: true
+                  enabled: true
+  template:
+    metadata:
+      name: '{{clusterName}}-{{ default .name .appName }}'
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{ default "50" .syncWave }}'
+      labels:
+        cluster: '{{clusterName}}'
+        component: '{{ .name }}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/rbales79/argo-apps
+        targetRevision: framework-dev
+        path: 'charts/platform/{{ .name }}'
+        helm:
+          releaseName: '{{ .name }}'
+          valuesObject:
+            cluster:
+              name: '{{clusterName}}'
+              top_level_domain: roybales.com
+              admin_email: rbales79@gmail.com
+              timezone: America/New_York
+            externalSecrets:
+              secret: infisical-auth-secret
+              infisical:
+                projectSlug: '{{clusterName}}'
+                environmentSlug: prod
+            storage:
+              truenas:
+                enabled: true
+                iscsi:
+                  namePrefix: '{{clusterName}}-'
+                zfs:
+                  datasetParentName: 'volume1/iscsi/{{clusterName}}/vols'
+                  detachedSnapshotsDatasetParentName: 'volume1/iscsi/{{clusterName}}/snaps'
+              default:
+                className: truenas-iscsi
+                provider: truenas
+            network:
+              lan:
+                defaultGateway: 192.168.1.1
+                subnet: 192.168.1.0/24
+      destination:
+        server: '{{server}}'
+        namespace: '{{ default .name .namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace={{ if hasKey . "createNamespace" }}{{ .createNamespace }}{{ else }}true{{ end }}
+          - ServerSideApply=true
+      ignoreDifferences:
+        - group: argoproj.io
+          kind: Application
+          jsonPointers:
+            - /spec/syncPolicy/automated
+        - kind: Namespace
+          jsonPointers:
+            - /metadata/labels
+            - /metadata/annotations

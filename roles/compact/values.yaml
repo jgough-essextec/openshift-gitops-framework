@@ -1,0 +1,49 @@
+# Compact (3-node) Topology Defaults
+# Suitable for hub clusters or small production deployments
+
+topology:
+  name: compact
+  nodeCount: 3
+  controlPlaneCount: 3
+  workerCount: 0  # Typically runs workloads on control plane
+
+  # Replica defaults for compact
+  replicas:
+    default: 2        # Most apps run 2 replicas for HA
+    critical: 3       # Critical apps can use all 3 nodes
+
+  # PodDisruptionBudget strategy
+  pdb:
+    enabled: true
+    minAvailable: 1   # Allow 1 pod to be disrupted (allows node maintenance)
+
+  # Resource defaults (moderate sizing)
+  resources:
+    small:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+    medium:
+      requests:
+        memory: "512Mi"
+        cpu: "250m"
+      limits:
+        memory: "1Gi"
+        cpu: "1000m"
+    large:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "2Gi"
+        cpu: "2000m"
+
+  # HorizontalPodAutoscaler strategy
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 3    # Limited by node count
+    targetCPUUtilization: 70

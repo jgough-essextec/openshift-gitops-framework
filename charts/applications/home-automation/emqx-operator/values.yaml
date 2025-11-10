@@ -1,0 +1,39 @@
+cluster:
+  top_level_domain: roybales.com
+  name: cluster
+  admin_email: rbales79@gmail.com
+  timezone: America/New_York
+  storage:
+    #config:
+    #  storageClassName: synology-iscsi
+    media:
+      nfs:
+        server: nas
+        path: /volume1/media
+
+application:
+  name: EMQX
+  group: Infrastructure
+  icon: cbi:mqtt
+  iconColor: "#3C5280"
+  image: "https://avatars.githubusercontent.com/u/25221711"
+  description: "MQTT broker"
+  port: 18083
+  tags: admin
+
+emqx:
+  # EMQX cluster configuration
+  replicas: 1  # Single instance for development/lab environment
+  network:
+    ip: 192.168.10.11
+
+emqx-operator:
+  # Operator configuration
+  singleNamespace: false  # Watch all namespaces
+  development: false
+  replicaCount: 1
+
+  # Image configuration
+  image:
+    repository: emqx/emqx-operator-controller
+    pullPolicy: IfNotPresent

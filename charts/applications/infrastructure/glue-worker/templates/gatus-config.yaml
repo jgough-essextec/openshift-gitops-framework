@@ -1,0 +1,25 @@
+{{- if .Values.gatus.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-gatus-ep
+  namespace: {{ .Release.Namespace }}
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: {{ .Release.Name }}
+        group: {{ .Values.application.group }}
+        url: "https://{{ .Release.Name }}.apps.{{ .Values.cluster.name }}.{{ .Values.cluster.top_level_domain }}/health"
+        interval: {{ .Values.gatus.interval }}
+        client:
+          insecure: true
+        conditions:
+          {{- range .Values.gatus.conditions }}
+          - "{{ . }}"
+          {{- end }}
+        alerts:
+          - type: email
+{{- end }}

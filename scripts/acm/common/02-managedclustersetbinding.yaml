@@ -1,0 +1,11 @@
+---
+# ManagedClusterSetBinding: homelab
+# Binds the homelab clusterset to the openshift-gitops namespace
+# This allows Argo CD to deploy applications to clusters in the homelab set
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSetBinding
+metadata:
+  name: homelab
+  namespace: openshift-gitops
+spec:
+  clusterSet: homelab

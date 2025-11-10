@@ -1,0 +1,9 @@
+apiVersion: v2
+name: paperless-gpt
+description: A Helm chart for Paperless-GPT ingest, OCR, and metadata processing
+version: 1.0.0
+kubeVersion: ">=1.22.0-0"
+
+maintainers:
+  - name: Roy Bales
+    email: rbales79@gmail.com

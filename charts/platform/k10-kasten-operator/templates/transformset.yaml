@@ -1,0 +1,19 @@
+---
+kind: TransformSet
+apiVersion: config.kio.kasten.io/v1alpha1
+metadata:
+  name: remove-storage-class
+  namespace: kasten-io
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true,Retry=true
+spec:
+  comment: |
+    Remove the storageClass.
+  transforms:
+    - subject:
+        resource: persistentvolumeclaims
+      name: RemoveStorageClass
+      json:
+        - op: remove
+          path: /spec/storageClassName

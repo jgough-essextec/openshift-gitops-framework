@@ -1,0 +1,29 @@
+---
+# Placement: platform-placement-1
+# Selects all clusters in the homelab clusterset for platform component deployment
+# This placement is used by ApplicationSets to target managed clusters
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: platform-placement-1
+  namespace: openshift-gitops
+  labels:
+    app: platform
+spec:
+  # Reference to the clusterset
+  clusterSets:
+    - homelab
+  # Predicates define which clusters to select
+  predicates:
+    - requiredClusterSelector:
+        # Empty labelSelector {} selects all clusters in the clusterset
+        # To filter clusters, add label matching criteria
+        labelSelector: {}
+        # Example: Select only SNO topology clusters
+        # labelSelector:
+        #   matchLabels:
+        #     topology: sno
+        # Example: Select by environment
+        # labelSelector:
+        #   matchLabels:
+        #     environment: homelab

@@ -1,0 +1,50 @@
+Thank you for installing {{ .Chart.Name }}!
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }} -n {{ .Release.Namespace }}
+  $ helm get all {{ .Release.Name }} -n {{ .Release.Namespace }}
+
+{{- if .Values.route.enabled }}
+
+Access the todo application at:
+  https://{{ include "todo.routeHost" . }}
+
+{{- else if .Values.ingress.enabled }}
+
+Access the todo application via your configured ingress.
+
+{{- else }}
+
+The application is running but not exposed externally.
+To access it, forward the frontend service port:
+
+  kubectl port-forward -n {{ .Release.Namespace }} svc/{{ include "todo.fullname" . }}-frontend 3000:3000
+
+Then visit: http://localhost:3000
+
+{{- end }}
+
+Backend API is available at:
+  - Internal: http://{{ include "todo.fullname" . }}-backend:{{ .Values.backend.service.port }}
+  - Routes through frontend proxy at: /api
+
+{{- if .Values.backend.persistence.enabled }}
+
+Backend persistence is enabled. Database is stored at:
+  {{ .Values.backend.persistence.mountPath }}/todos.db
+
+{{- end }}
+
+Components:
+  - Backend: FastAPI (Python) - REST API and SQLite database
+  - Frontend: React - User interface with hierarchical todo management
+
+Features:
+  - Hierarchical todos (parent-child relationships)
+  - Pagination support
+  - Search functionality
+  - Completed/Active filtering
+  - Todo history view

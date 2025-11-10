@@ -1,0 +1,212 @@
+---
+# Production cluster configuration (SNO topology - Single Node OpenShift)
+# Formerly values-sno.yaml - renamed to values-prod.yaml to reduce confusion
+# Inherits from: values-home.yaml (cluster set)
+# Mapped from roles/sno/templates/*.yaml
+
+# Include cluster set configuration
+# In deployment: helm install -f values-global.yaml -f clusters/sets/values-home.yaml -f clusters/individual-clusters/values-prod.yaml
+
+clusterGroup:
+  name: sno
+  topology: sno  # Single Node OpenShift
+  clusterSet: home
+  region: edge
+  isHubCluster: false
+
+  # Storage (from base-storage.yaml)
+  storage:
+    default:
+      provider: truenas
+      className: truenas-iscsi
+    truenas:
+      enabled: true  # Enabled in base-storage.yaml
+      iscsi:
+        namePrefix: sno-
+      zfs:
+        datasetParentName: volume1/iscsi/sno/vols
+        detachedSnapshotsDatasetParentName: volume1/iscsi/sno/snaps
+    synology:
+      enabled: false  # Commented out in base-storage.yaml
+    metallb:
+      enabled: false  # Disabled - using native OpenShift networking
+
+  # Platform components (from base-apps.yaml, base-security.yaml, base-tweaks.yaml)
+  platformComponents:
+    # Security & Secrets
+    externalSecrets:
+      enabled: true  # From base-security.yaml
+    certManager:
+      enabled: true  # certificates in base-apps.yaml
+
+    # Node & Resource Management
+    nfd:
+      enabled: true  # openshift-nfd in base-apps.yaml
+    vpa:
+      enabled: true  # vertical-pod-autoscaler in base-apps.yaml
+    goldilocks:
+      enabled: true  # goldilocks in base-apps.yaml
+    systemReservation:
+      enabled: false  # Commented out in base-apps.yaml
+
+    # Monitoring & Health
+    gatus:
+      enabled: true  # gatus in base-apps.yaml
+    customErrorPages:
+      enabled: true  # custom-error-pages in base-apps.yaml
+
+    # Hardware & GPU
+    genericDevicePlugin:
+      enabled: true  # generic-device-plugin in base-apps.yaml
+    amdGpu:
+      enabled: true  # amd-gpu-operator in infrastructure.yaml
+    intelGpu:
+      enabled: false  # Commented out
+
+    # Backup & HA
+    kasten:
+      enabled: false  # Commented out in base-apps.yaml
+    keepalived:
+      enabled: false  # Commented out in base-apps.yaml
+
+    # Multi-cluster Management (moved to platform for DRY)
+    acm:
+      enabled: false  # Not a hub cluster
+    multiclusterEngine:
+      enabled: false  # Not a hub cluster
+
+    # Tweaks (from base-tweaks.yaml)
+    argoCdResourceConfig:
+      enabled: true
+    disableMasterSecondaryInterfaces:
+      enabled: true  # Enabled in base-tweaks.yaml
+    disableWorkerSecondaryInterfaces:
+      enabled: false  # Commented out (no workers on SNO)
+    snapshotFinalizerRemover:
+      enabled: true
+
+  # Note: ACM/MCE moved to platformComponents for DRY principle
+
+  # Application stacks (from ai.yaml, media.yaml, home-automation.yaml, paperless.yaml)
+  applicationStacks:
+        # AI / ML Applications
+    ai:
+      enabled: false
+      apps:
+        # - litellm          # AI proxy/router for LLM APIs
+        # - ollama           # Local LLM inference server
+        # - open-webui       # Web interface for Ollama/LiteLLM
+
+    # Media Management Applications
+    media:
+      enabled: true
+      apps:
+        # Active Apps
+        - overseerr          # Request management for Plex/Jellyfin
+        - prowlarr           # Indexer manager
+        - radarr             # Movie collection manager
+        - sabnzbd            # Usenet downloader
+        - sonarr             # TV series collection manager
+
+        # Available Apps (commented = disabled)
+        # - bazarr           # Subtitle management
+        # - flaresolverr     # Cloudflare bypass proxy
+        # - gaps             # Missing movie finder for Plex
+        # - huntarr          # Bounty manager for *arr apps
+        # - jellyfin         # Alternative media server
+        # - jellyseerr       # Request management for Jellyfin
+        # - kapowarr         # Comic book collection manager
+        # - kavita           # Ebook/comic reader
+        # - lidarr           # Music collection manager
+        # - metube           # YouTube downloader
+        # - pinchflat        # YouTube channel archiver
+        # - plex             # Media server (primary)
+        # - posterizarr      # Poster/artwork management
+        # - readarr          # Ebook collection manager
+        # - recyclarr        # TRaSH guides sync for *arr apps
+        # - tautulli         # Plex monitoring and statistics
+
+    # Home Automation Applications
+    homeAutomation:
+      enabled: true
+      apps:
+        # Active Apps
+        - emqx-operator      # MQTT broker operator
+        - home-assistant     # Home automation platform
+        - node-red           # Flow-based automation
+
+        # Available Apps (commented = disabled)
+        # - zwavejs2mqtt     # Z-Wave to MQTT bridge
+
+    # Productivity Applications
+    productivity:
+      enabled: true
+      apps:
+        # - bookmarks        # Bookmark manager
+        # - cyberchef        # Data transformation tool
+        # - excalidraw       # Collaborative whiteboard
+        # - it-tools         # Developer utilities collection
+        # - startpunkt       # Customizable startpage
+        # - terraform-enterprise  # Terraform private registry
+         - todo             # Hierarchical task manager (FastAPI + React)
+
+    # Infrastructure Applications
+    infrastructure:
+      enabled: false
+      apps:
+        # - adsb             # Aircraft tracking (FlightAware/ADS-B)
+        # - glue-worker      # Custom Python automation workers
+        # - paperless-ai     # AI-powered document processing
+        # - paperless-gpt    # GPT integration for Paperless
+        # - paperless-ngx    # Document management system
+
+  # Network configuration for SNO
+  network:
+    lan:
+      defaultGateway: 192.168.1.1
+      subnet: 192.168.1.0/24
+    loadbalancer-ips:
+      plex: 192.168.1.205
+      emqx: 192.168.1.204
+      home-assistant: 192.168.1.202
+
+  # Cluster-specific overrides (from roles/sno/values.yaml)
+  cluster:
+    top_level_domain: roybales.com
+    name: sno
+    admin_email: rbales79@gmail.com
+    timezone: America/New_York
+
+  # Certificates
+  certificates:
+    letsencrypt:
+      issuer: production
+
+  # External Secrets
+  externalSecrets:
+    secret: infisical-auth-secret
+    infisical:
+      projectSlug: hub
+      environmentSlug: prod
+
+  # Backup configuration
+  backup:
+    kasten:
+      enabled: false
+      excludedApps:
+        - gatus
+        - goldilocks
+
+  # ArgoCD resource configuration
+  argocd:
+    enabled: true
+
+  # AMD GPU Operator node labeling (Radeon Vega 8 integrated GPU)
+  amdGpuOperator:
+    nodeLabeling:
+      enabled: true
+      nodeNames:
+        - sno
+      additionalLabels:
+        amd.com/gpu.family: gfx902
+        amd.com/gpu.model: RadeonVega8

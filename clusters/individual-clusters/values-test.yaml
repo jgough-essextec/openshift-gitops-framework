@@ -1,0 +1,211 @@
+---
+# Test cluster configuration (Test/Dev cluster)
+# Inherits from: values-home.yaml (cluster set) + values-prod.yaml (topology) + values-test.yaml (cluster-specific)
+# Mapped from roles/test/templates/*.yaml
+
+# Include cluster set configuration
+# In deployment: helm install -f values-global.yaml -f clusters/sets/values-home.yaml -f clusters/individual-clusters/values-prod.yaml -f clusters/individual-clusters/values-test.yaml
+
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/rbales79/argo-apps
+    targetRevision: framework-dev
+
+clusterGroup:
+  name: test
+  topology: sno  # Single Node OpenShift
+  clusterSet: home
+  region: edge
+  isHubCluster: false
+
+  # Storage (from base-storage.yaml)
+  storage:
+    default:
+      provider: truenas
+      className: truenas-iscsi
+    truenas:
+      enabled: true  # Enabled in base-storage.yaml
+      iscsi:
+        namePrefix: test-
+      zfs:
+        datasetParentName: volume1/iscsi/test/vols
+        detachedSnapshotsDatasetParentName: volume1/iscsi/test/snaps
+    synology:
+      enabled: false  # Commented out in base-storage.yaml
+    metallb:
+      enabled: false  # Commented out in infrastructure.yaml
+
+  # Platform components (from base-apps.yaml, base-security.yaml, base-tweaks.yaml)
+  platformComponents:
+    # Security & Secrets
+    externalSecrets:
+      enabled: true  # From base-security.yaml
+    certManager:
+      enabled: true  # certificates in base-apps.yaml
+
+    # Node & Resource Management
+    nfd:
+      enabled: true  # openshift-nfd in base-apps.yaml
+    vpa:
+      enabled: true  # vertical-pod-autoscaler in base-apps.yaml
+    goldilocks:
+      enabled: true  # goldilocks in base-apps.yaml
+    systemReservation:
+      enabled: false  # Commented out in base-apps.yaml (causes reboot)
+
+    # Monitoring & Health
+    gatus:
+      enabled: true  # gatus in base-apps.yaml
+    customErrorPages:
+      enabled: true  # custom-error-pages in base-apps.yaml
+
+    # Hardware & GPU
+    genericDevicePlugin:
+      enabled: true  # generic-device-plugin in base-apps.yaml
+    amdGpu:
+      enabled: true  # Enable for Radeon Vega 8 integrated GPU
+    intelGpu:
+      enabled: false  # Commented out
+
+    # Backup & HA
+    kasten:
+      enabled: true  # k10-kasten-operator in base-apps.yaml
+    keepalived:
+      enabled: true  # keepalived-operator in base-apps.yaml
+
+    # Multi-cluster Management (moved to platform for DRY)
+    acm:
+      enabled: false  # Not a hub cluster
+    multiclusterEngine:
+      enabled: false  # Not a hub cluster
+
+    # Tweaks (from base-tweaks.yaml)
+    argoCdResourceConfig:
+      enabled: true
+    disableMasterSecondaryInterfaces:
+      enabled: false  # Enabled in base-tweaks.yaml
+    disableWorkerSecondaryInterfaces:
+      enabled: false  # Commented out (SNO - no workers)
+    snapshotFinalizerRemover:
+      enabled: true
+
+  # Application stacks
+  applicationStacks:
+    # AI / ML Applications
+    ai:
+      enabled: false
+      apps:
+        # - litellm          # AI proxy/router for LLM APIs
+        # - ollama           # Local LLM inference server
+        # - open-webui       # Web interface for Ollama/LiteLLM
+
+    # Media Management Applications
+    media:
+      enabled: false
+      apps:
+        # - bazarr           # Subtitle management
+        # - flaresolverr     # Cloudflare bypass proxy
+        # - gaps             # Missing movie finder for Plex
+        # - huntarr          # Bounty manager for *arr apps
+        # - jellyfin         # Alternative media server
+        # - jellyseerr       # Request management for Jellyfin
+        # - kapowarr         # Comic book collection manager
+        # - kavita           # Ebook/comic reader
+        # - lidarr           # Music collection manager
+        # - metube           # YouTube downloader
+        # - overseerr        # Request management for Plex/Jellyfin
+        # - pinchflat        # YouTube channel archiver
+        # - plex             # Media server (primary)
+        # - posterizarr      # Poster/artwork management
+        # - prowlarr         # Indexer manager
+        # - radarr           # Movie collection manager
+        # - readarr          # Ebook collection manager
+        # - recyclarr        # TRaSH guides sync for *arr apps
+        # - sabnzbd          # Usenet downloader
+        # - sonarr           # TV series collection manager
+        # - tautulli         # Plex monitoring and statistics
+
+    # Home Automation Applications
+    homeAutomation:
+      enabled: false
+      apps:
+        # - emqx-operator    # MQTT broker operator
+        # - home-assistant   # Home automation platform
+        # - node-red         # Flow-based automation
+        # - zwavejs2mqtt     # Z-Wave to MQTT bridge
+
+    # Productivity Applications
+    productivity:
+      enabled: true
+      apps:
+        # Active Apps
+        - cyberchef          # Data transformation tool
+
+        # Available Apps (commented = disabled)
+        # - bookmarks        # Bookmark manager
+        # - excalidraw       # Collaborative whiteboard
+        # - it-tools         # Developer utilities collection
+        # - startpunkt       # Customizable startpage
+        # - terraform-enterprise  # Terraform private registry
+        # - todo             # Hierarchical task manager (FastAPI + React)
+
+    # Infrastructure Applications
+    infrastructure:
+      enabled: false
+      apps:
+        # - adsb             # Aircraft tracking (FlightAware/ADS-B)
+        # - glue-worker      # Custom Python automation workers
+        # - paperless-ai     # AI-powered document processing
+        # - paperless-gpt    # GPT integration for Paperless
+        # - paperless-ngx    # Document management system
+
+  # Network configuration
+  network:
+    lan:
+      defaultGateway: 192.168.1.1
+      subnet: 192.168.1.0/24
+    loadbalancer-ips:
+      plex: 192.168.1.205
+      emqx: 192.168.1.204
+
+  # Cluster-specific overrides (from roles/test/values.yaml)
+  cluster:
+    top_level_domain: roybales.com
+    name: test
+    admin_email: rbales79@gmail.com
+    timezone: America/New_York
+
+  # Certificates
+  certificates:
+    letsencrypt:
+      issuer: production
+
+  # External Secrets
+  externalSecrets:
+    secret: infisical-auth-secret
+    infisical:
+      projectSlug: hub
+      environmentSlug: prod
+
+  # AMD GPU configuration (from roles/test/values.yaml)
+  amdGpuOperator:
+    nodeLabeling:
+      enabled: true
+      nodeNames:
+        - test  # Single node test cluster
+      additionalLabels:
+        amd.com/gpu.family: gfx902
+        amd.com/gpu.model: RadeonVega8
+        amd.com/gpu.type: integrated
+
+  # ArgoCD resource configuration
+  argocd:
+    enabled: true
+
+  # Backup configuration
+  backup:
+    kasten:
+      enabled: true  # For testing backup/restore
+      s3Compatible: true

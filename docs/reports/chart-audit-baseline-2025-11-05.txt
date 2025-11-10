@@ -1,0 +1,1657 @@
+
+================================================================================
+HELM CHART STANDARDS AUDIT REPORT
+================================================================================
+
+Total Charts: 39
+Compliant Charts: 0 (0.0%)
+Non-Compliant Charts: 39
+
+
+================================================================================
+Domain: ai
+================================================================================
+
+❌ NON-COMPLIANT | litellm v1.0.0 | Score: 90.0%
+  Path: /workspaces/argo-apps/charts/applications/ai/litellm
+  Checks: 81 passed, 9 failed
+
+  Issues (17):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | ollama v1.0.0 | Score: 80.4%
+  Path: /workspaces/argo-apps/charts/applications/ai/ollama
+  Checks: 37 passed, 9 failed
+
+  Issues (17):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | open-webui v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/ai/open-webui
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+================================================================================
+Domain: home-automation
+================================================================================
+
+❌ NON-COMPLIANT | emqx-operator v1.0.0 | Score: 76.5%
+  Path: /workspaces/argo-apps/charts/applications/home-automation/emqx-operator
+  Checks: 26 passed, 8 failed
+
+  Issues (16):
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🔴 [ERROR] Missing deployment.yaml or statefulset.yaml
+       File: templates/
+    🔴 [ERROR] Missing required file: templates/service.yaml
+       File: templates/service.yaml
+    🔴 [ERROR] Missing required file: templates/serviceaccount.yaml
+       File: templates/serviceaccount.yaml
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] No Renovate comment found - automated image updates disabled [AUTO-FIX AVAILABLE]
+       File: values.yaml
+
+❌ NON-COMPLIANT | home-assistant v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/home-automation/home-assistant
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | node-red v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/home-automation/node-red
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | zwavejs2mqtt v1.0.0 | Score: 77.8%
+  Path: /workspaces/argo-apps/charts/applications/home-automation/zwavejs2mqtt
+  Checks: 42 passed, 12 failed
+
+  Issues (20):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Privileged containers not allowed on OpenShift
+       File: templates/statefulset.yaml
+    🔴 [ERROR] hostPath volumes not allowed under restricted SCC
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+================================================================================
+Domain: infrastructure
+================================================================================
+
+❌ NON-COMPLIANT | adsb v1.0.0 | Score: 91.0%
+  Path: /workspaces/argo-apps/charts/applications/infrastructure/adsb
+  Checks: 91 passed, 9 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🔴 [ERROR] Missing deployment.yaml or statefulset.yaml
+       File: templates/
+    🔴 [ERROR] Missing required file: templates/service.yaml
+       File: templates/service.yaml
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/route.yaml [AUTO-FIX AVAILABLE]
+       File: templates/route.yaml
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🟡 [WARNING] No Route template found - consider adding for OpenShift compatibility [AUTO-FIX AVAILABLE]
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | glue-worker v1.0.0 | Score: 73.7%
+  Path: /workspaces/argo-apps/charts/applications/infrastructure/glue-worker
+  Checks: 28 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🔴 [ERROR] Missing required file: templates/serviceaccount.yaml
+       File: templates/serviceaccount.yaml
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | paperless-ai v1.0.0 | Score: 82.0%
+  Path: /workspaces/argo-apps/charts/applications/infrastructure/paperless-ai
+  Checks: 41 passed, 9 failed
+
+  Issues (17):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | paperless-gpt v1.0.0 | Score: 76.2%
+  Path: /workspaces/argo-apps/charts/applications/infrastructure/paperless-gpt
+  Checks: 32 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🔴 [ERROR] Missing required file: templates/serviceaccount.yaml
+       File: templates/serviceaccount.yaml
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | paperless-ngx v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/infrastructure/paperless-ngx
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/scc.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+================================================================================
+Domain: media
+================================================================================
+
+❌ NON-COMPLIANT | bazarr v1.0.0 | Score: 82.5%
+  Path: /workspaces/argo-apps/charts/applications/media/bazarr
+  Checks: 47 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    🟡 [WARNING] No Renovate comment found - automated image updates disabled [AUTO-FIX AVAILABLE]
+       File: values.yaml
+
+❌ NON-COMPLIANT | flaresolverr v1.0.0 | Score: 76.2%
+  Path: /workspaces/argo-apps/charts/applications/media/flaresolverr
+  Checks: 32 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | gaps v1.0.0 | Score: 79.6%
+  Path: /workspaces/argo-apps/charts/applications/media/gaps
+  Checks: 39 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    🟡 [WARNING] No Renovate comment found - automated image updates disabled [AUTO-FIX AVAILABLE]
+       File: values.yaml
+
+❌ NON-COMPLIANT | huntarr v1.0.0 | Score: 80.0%
+  Path: /workspaces/argo-apps/charts/applications/media/huntarr
+  Checks: 40 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | jellyfin v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/media/jellyfin
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | jellyseerr v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/media/jellyseerr
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | kapowarr v1.0.0 | Score: 82.8%
+  Path: /workspaces/argo-apps/charts/applications/media/kapowarr
+  Checks: 48 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | kavita v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/media/kavita
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | lidarr v1.0.0 | Score: 82.8%
+  Path: /workspaces/argo-apps/charts/applications/media/lidarr
+  Checks: 48 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | metube v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/media/metube
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | overseerr v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/media/overseerr
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | pinchflat v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/media/pinchflat
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | plex v1.0.0 | Score: 83.9%
+  Path: /workspaces/argo-apps/charts/applications/media/plex
+  Checks: 52 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | posterizarr v1.0.0 | Score: 79.6%
+  Path: /workspaces/argo-apps/charts/applications/media/posterizarr
+  Checks: 39 passed, 10 failed
+
+  Issues (19):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/route.yaml [AUTO-FIX AVAILABLE]
+       File: templates/route.yaml
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🟡 [WARNING] No Route template found - consider adding for OpenShift compatibility [AUTO-FIX AVAILABLE]
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | prowlarr v1.0.0 | Score: 82.8%
+  Path: /workspaces/argo-apps/charts/applications/media/prowlarr
+  Checks: 48 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | radarr v1.0.0 | Score: 82.8%
+  Path: /workspaces/argo-apps/charts/applications/media/radarr
+  Checks: 48 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | readarr v1.0.0 | Score: 82.8%
+  Path: /workspaces/argo-apps/charts/applications/media/readarr
+  Checks: 48 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | recyclarr v1.0.0 | Score: 62.5%
+  Path: /workspaces/argo-apps/charts/applications/media/recyclarr
+  Checks: 15 passed, 9 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🔴 [ERROR] Missing deployment.yaml or statefulset.yaml
+       File: templates/
+    🔴 [ERROR] Missing required file: templates/service.yaml
+       File: templates/service.yaml
+    🔴 [ERROR] Missing required file: templates/serviceaccount.yaml
+       File: templates/serviceaccount.yaml
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/route.yaml [AUTO-FIX AVAILABLE]
+       File: templates/route.yaml
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🟡 [WARNING] No Route template found - consider adding for OpenShift compatibility [AUTO-FIX AVAILABLE]
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | sabnzbd v1.0.0 | Score: 82.8%
+  Path: /workspaces/argo-apps/charts/applications/media/sabnzbd
+  Checks: 48 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | sonarr v1.0.0 | Score: 82.8%
+  Path: /workspaces/argo-apps/charts/applications/media/sonarr
+  Checks: 48 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | tautulli v1.0.0 | Score: 81.5%
+  Path: /workspaces/argo-apps/charts/applications/media/tautulli
+  Checks: 44 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+================================================================================
+Domain: productivity
+================================================================================
+
+❌ NON-COMPLIANT | bookmarks v1.0.0 | Score: 83.6%
+  Path: /workspaces/argo-apps/charts/applications/productivity/bookmarks
+  Checks: 46 passed, 9 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🔴 [ERROR] Missing deployment.yaml or statefulset.yaml
+       File: templates/
+    🔴 [ERROR] Missing required file: templates/service.yaml
+       File: templates/service.yaml
+    🔴 [ERROR] Missing required file: templates/serviceaccount.yaml
+       File: templates/serviceaccount.yaml
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/route.yaml [AUTO-FIX AVAILABLE]
+       File: templates/route.yaml
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🟡 [WARNING] No Route template found - consider adding for OpenShift compatibility [AUTO-FIX AVAILABLE]
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    🟡 [WARNING] No Renovate comment found - automated image updates disabled [AUTO-FIX AVAILABLE]
+       File: values.yaml
+
+❌ NON-COMPLIANT | cyberchef v1.0.0 | Score: 78.3%
+  Path: /workspaces/argo-apps/charts/applications/productivity/cyberchef
+  Checks: 36 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | excalidraw v1.0.0 | Score: 77.8%
+  Path: /workspaces/argo-apps/charts/applications/productivity/excalidraw
+  Checks: 35 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    🟡 [WARNING] No Renovate comment found - automated image updates disabled [AUTO-FIX AVAILABLE]
+       File: values.yaml
+
+❌ NON-COMPLIANT | it-tools v1.0.0 | Score: 78.3%
+  Path: /workspaces/argo-apps/charts/applications/productivity/it-tools
+  Checks: 36 passed, 10 failed
+
+  Issues (18):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/statefulset.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | startpunkt v1.0.0 | Score: 80.6%
+  Path: /workspaces/argo-apps/charts/applications/productivity/startpunkt
+  Checks: 50 passed, 12 failed
+
+  Issues (21):
+    🔴 [ERROR] Missing required file: README.md
+       File: README.md
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource ClusterRole found in app chart (should be in platform)
+       File: templates/rbac.yaml
+    🔴 [ERROR] Cluster-scoped resource ClusterRoleBinding found in app chart (should be in platform)
+       File: templates/rbac.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    🔴 [ERROR] Missing 'runAsNonRoot: true' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    🔴 [ERROR] Missing 'allowPrivilegeEscalation: false' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    🔴 [ERROR] Missing 'capabilities.drop: [ALL]' in securityContext [AUTO-FIX AVAILABLE]
+       File: templates/deployment.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing required section in values.yaml: service [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🔴 [ERROR] Missing README.md [AUTO-FIX AVAILABLE]
+       File: README.md
+    🟡 [WARNING] CRD found in templates/ - should be in crds/ directory: crds.yaml
+       File: templates/crds.yaml
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml
+
+❌ NON-COMPLIANT | terraform-enterprise v1.0.0 | Score: 93.3%
+  Path: /workspaces/argo-apps/charts/applications/productivity/terraform-enterprise
+  Checks: 56 passed, 4 failed
+
+  Issues (12):
+    🔴 [ERROR] Missing required file: templates/_helpers.tpl
+       File: templates/_helpers.tpl
+    🔴 [ERROR] Missing required file: templates/NOTES.txt
+       File: templates/NOTES.txt
+    🟡 [WARNING] Recommended file missing: values.schema.json [AUTO-FIX AVAILABLE]
+       File: values.schema.json
+    🟡 [WARNING] Recommended file missing: templates/networkpolicy.yaml [AUTO-FIX AVAILABLE]
+       File: templates/networkpolicy.yaml
+    🟡 [WARNING] Recommended file missing: tests/test-connection.yaml [AUTO-FIX AVAILABLE]
+       File: tests/test-connection.yaml
+    🔴 [ERROR] Cluster-scoped resource SecurityContextConstraints found in app chart (should be in platform)
+       File: templates/securitycontextconstraints.yaml
+    ℹ️ [INFO] Route template found (OpenShift best practice)
+       File: templates/route.yaml
+    🔴 [ERROR] Missing required section in values.yaml: image [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: resources [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: securityContext [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    🟡 [WARNING] Recommended section missing in values.yaml: serviceAccount [AUTO-FIX AVAILABLE]
+       File: values.yaml
+    ℹ️ [INFO] Renovate comment found for automated image updates
+       File: values.yaml

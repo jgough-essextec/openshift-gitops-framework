@@ -1,0 +1,12 @@
+apiVersion: v2
+name: metallb
+description: MetalLB is a load-balancer implementation for bare metal Kubernetes clusters
+type: application
+version: 0.2.0
+appVersion: "v0.13.12"
+
+# BREAKING CHANGES in 0.2.0:
+# - Replaced deprecated ConfigMap configuration with CRD-based IPAddressPool and L2Advertisement
+# - Removed --config-map flag from controller and speaker (not supported in v0.13+)
+# - Added SecurityContextConstraint for OpenShift compatibility
+# - Updated security contexts to follow best practices (non-root, read-only filesystem)

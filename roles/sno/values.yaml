@@ -1,0 +1,102 @@
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/rbales79/argo-apps
+    targetRevision: HEAD
+
+# SNO Topology Defaults
+# These values define replica counts, PDB strategy, and resource sizing for single-node clusters
+topology:
+  name: sno
+  nodeCount: 1
+  controlPlaneCount: 1
+  workerCount: 0
+
+  # Replica defaults for SNO
+  replicas:
+    default: 1        # Most apps run single replica
+    critical: 1       # Even critical apps can't scale beyond 1 node
+
+  # PodDisruptionBudget strategy
+  pdb:
+    enabled: false    # PDBs don't make sense on single node
+
+  # Resource defaults (smaller for single node)
+  resources:
+    small:
+      requests:
+        memory: "128Mi"
+        cpu: "50m"
+      limits:
+        memory: "256Mi"
+        cpu: "200m"
+    medium:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+    large:
+      requests:
+        memory: "512Mi"
+        cpu: "200m"
+      limits:
+        memory: "1Gi"
+        cpu: "1000m"
+
+  # HorizontalPodAutoscaler strategy
+  hpa:
+    enabled: false    # No point in HPA on single node
+
+config:
+  cluster:
+    top_level_domain: roybales.com
+    name: sno
+    admin_email: rbales79@gmail.com
+    timezone: America/New_York
+    storage:
+      truenas:
+        zfs:
+          datasetParentName: "volume1/iscsi/sno/vols"
+          detachedSnapshotsDatasetParentName: "volume1/iscsi/sno/snaps"
+        iscsi:
+          namePrefix: "sno-"
+        secretKeys:
+          apiKey: TRUENAS_API_KEY
+          sshPassword: TRUENAS_SSH_PASSWORD
+          truenasPassword: TRUENAS_PASSWORD
+      config:
+        storageClassName: truenas-iscsi
+      media:
+        nfs:
+          server: truenas.roybales.com
+          path: /mnt/volume1/media
+
+  plex:
+    network:
+      ip: 192.168.1.200
+
+  emqx:
+    network:
+      ip: 192.168.1.201
+
+  certificates:
+    letsencrypt:
+      issuer: production
+
+  externalSecrets:
+    secret: infisical-auth-secret
+    infisical:
+      projectSlug: hub
+      environmentSlug: prod
+
+  network:
+    lan:
+      defaultGateway: 192.168.1.1
+
+  # ArgoCD Resource Configuration
+  # Set to true to apply optimized resource limits for OpenShift GitOps components
+  argocd:
+    enabled: true

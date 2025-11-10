@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-delay-after-security
+  annotations:
+    argocd.argoproj.io/sync-wave: "25"
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Release.Name }}-wait-for-eso
+      containers:
+      - name: wait-for-eso
+        image: quay.io/openshift/origin-cli:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Waiting for External Secrets Operator to be ready..."
+
+          # Check if ESO CRDs are available (works whether ESO is freshly deployed or already running)
+          for i in {1..60}; do
+            if oc get crd externalsecrets.external-secrets.io 2>/dev/null && \
+               oc get crd secretstores.external-secrets.io 2>/dev/null && \
+               oc get crd clustersecretstores.external-secrets.io 2>/dev/null; then
+              echo "External Secrets Operator CRDs are available!"
+
+              # Optional: Check if operator pods are running (handles both fresh install and existing)
+              if oc get pods -n external-secrets-operator 2>/dev/null | grep -q "Running\|Completed"; then
+                echo "External Secrets Operator pods are running"
+              else
+                echo "No ESO pods found, but CRDs are available (operator may be cluster-scoped)"
+              fi
+
+              # Brief stabilization delay
+              echo "Waiting 30 seconds for CRDs to stabilize..."
+              sleep 30
+              echo "ESO readiness check complete, proceeding to storage deployment"
+              exit 0
+            fi
+            echo "Waiting for External Secrets Operator CRDs... (attempt $i/60)"
+            sleep 5
+          done
+
+          echo "ERROR: External Secrets Operator CRDs not available after 5 minutes"
+          exit 1
+      restartPolicy: Never
+  backoffLimit: 3

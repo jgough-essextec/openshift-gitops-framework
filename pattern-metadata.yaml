@@ -1,0 +1,122 @@
+---
+# Pattern metadata for Validated Patterns framework
+
+name: openshift-agentic-platform
+description: |
+  An OpenShift GitOps-based agentic framework for deploying and managing
+  AI, media, home automation, and productivity applications across multiple
+  cluster topologies (SNO, compact, full) with intelligent lifecycle management.
+
+version: 1.0.0
+
+keywords:
+  - openshift
+  - gitops
+  - validated-patterns
+  - ai
+  - media
+  - home-automation
+  - sno
+  - edge
+  - agentic
+
+maintainers:
+  - name: Roy Bales
+    email: rbales79@gmail.com
+
+links:
+  source: https://github.com/rbales79/argo-apps
+  documentation: https://github.com/rbales79/argo-apps/blob/main/README.md
+
+# Supported topologies
+topologies:
+  - sno
+  - compact
+  - full
+
+# Supported regions
+regions:
+  - hub
+  - edge
+  - datacenter
+
+# Supported cloud providers
+cloudProviders:
+  - baremetal
+  - aws
+  - azure
+  - gcp
+  - nutanix
+
+# Minimum OpenShift version
+minOpenShiftVersion: "4.18"
+
+# Pattern capabilities
+capabilities:
+  - Agentic application installation
+  - Multi-topology support (SNO/compact/full)
+  - Automated lifecycle management
+  - Intelligent troubleshooting
+  - Multi-cluster management with ACM
+  - AI/ML workloads
+  - Media management
+  - Home automation
+  - Productivity applications
+  - Automated backup with Kasten K10
+
+# Pattern components
+components:
+  common:
+    - external-secrets-operator
+    - cert-manager
+    - node-feature-discovery
+    - vertical-pod-autoscaler
+    - goldilocks
+    - gatus
+
+  topology-specific:
+    sno:
+      - truenas-csi
+      - metallb
+      - amd-gpu-operator
+      - intel-gpu-operator
+    compact:
+      - openshift-data-foundation
+    full:
+      - openshift-data-foundation
+
+  regional:
+    hub:
+      - advanced-cluster-management
+      - multicluster-engine
+      - openshift-gitops
+
+  applications:
+    ai:
+      - litellm
+      - ollama
+      - open-webui
+      - jupyter-hub
+    media:
+      - plex
+      - sonarr
+      - radarr
+      - prowlarr
+    home-automation:
+      - home-assistant
+      - node-red
+      - emqx
+    productivity:
+      - paperless-ngx
+      - bookmarks
+
+# Pattern validation
+validation:
+  pre-install:
+    - check-openshift-version
+    - check-cluster-resources
+    - validate-secrets
+  post-install:
+    - verify-operators
+    - verify-applications
+    - health-checks

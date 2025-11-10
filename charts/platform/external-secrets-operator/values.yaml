@@ -1,0 +1,27 @@
+cluster:
+  top_level_domain: roybales.com
+  name: cluster
+  admin_email: rbales79@gmail.com
+  timezone: America/New_York
+  storage:
+    #config:
+    #  storageClassName: synology-iscsi
+    # media:
+    #  nfs:
+    #    server: nas
+    #    path: /volume1/cluster
+
+subscription:
+  channel: alpha
+  installPlanApproval: Automatic
+  source: community-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: external-secrets-operator.v0.11.0
+
+externalSecrets:
+  secret: infisical-auth-secret
+  infisical:
+    projectSlug: hub
+    environmentSlug: prod
+    auth:
+      clientId: infisical-auth-secret

@@ -1,0 +1,26 @@
+{{- if .Values.application.icon }}
+---
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: {{ .Release.Name }}-application-menu
+spec:
+  href: https://{{ .Values.route.host }}
+  location: ApplicationMenu
+  text: {{ .Values.application.name }}
+  applicationMenu:
+    section: {{ .Values.application.group }}
+    imageURL: {{ .Values.application.image }}
+---
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: {{ .Release.Name }}-namespace-dashboard
+spec:
+  href: https://{{ .Values.route.host }}
+  location: NamespaceDashboard
+  text: {{ .Values.application.name }}
+  namespaceDashboard:
+    namespaces:
+      - {{ .Release.Namespace }}
+{{- end }}

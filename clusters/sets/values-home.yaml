@@ -1,0 +1,199 @@
+---
+# Home Lab Cluster Set Configuration
+# Applies to: Hub, Test, SNO clusters
+# All home clusters share: ESO, Certificates, TrueNAS, Infisical secrets
+
+clusterSet:
+  name: home
+  environment: homelab
+  location: "West Virginia, USA"
+
+# Home lab defaults - ALL clusters get these
+platformComponents:
+  # Security & Secrets
+  externalSecrets:
+    enabled: true  # All home clusters
+  certManager:
+    enabled: true  # All home clusters
+
+  # Node & Resource Management
+  nfd:
+    enabled: true  # All home clusters
+  vpa:
+    enabled: true  # All home clusters
+  goldilocks:
+    enabled: true  # All home clusters
+  systemReservation:
+    enabled: true  # All home clusters
+
+  # Monitoring & Health
+  gatus:
+    enabled: true  # All home clusters
+  customErrorPages:
+    enabled: true  # All home clusters
+
+  # Hardware & GPU
+  genericDevicePlugin:
+    enabled: true  # All home clusters
+  amdGpu:
+    enabled: true  # All home clusters have Radeon Vega 8
+  intelGpu:
+    enabled: false
+
+  # Storage - TrueNAS is default for ALL home clusters
+  truenas:
+    enabled: true  # All home clusters
+  synology:
+    enabled: false
+
+  # Networking
+  metallb:
+    enabled: false  # Disabled - using native OpenShift networking
+
+  # Backup & HA
+  kasten:
+    enabled: false  # Disabled by default, enable per cluster
+  keepalived:
+    enabled: true  # All home clusters get keepalived
+
+  # Multi-cluster Management
+  acm:
+    enabled: false  # Only on hub
+    # Minimal sizing configuration for home lab
+    availabilityConfig: Basic  # Basic = minimal, High = production
+  multiclusterEngine:
+    enabled: false  # Only on hub
+    # Minimal sizing configuration for home lab
+    availabilityConfig: Basic  # Basic = minimal, High = production
+
+  # Tweaks
+  argoCdResourceConfig:
+    enabled: true  # All home clusters
+  disableMasterSecondaryInterfaces:
+    enabled: true  # All home clusters
+  disableWorkerSecondaryInterfaces:
+    enabled: false  # No workers on SNO/Test
+  snapshotFinalizerRemover:
+    enabled: true  # All home clusters
+
+# Home lab storage configuration (TrueNAS)
+storage:
+  default:
+    provider: truenas
+    className: truenas-iscsi
+
+  truenas:
+    enabled: true
+    server: truenas.roybales.com
+    api:
+      protocol: https
+      port: 443
+    iscsi:
+      portal: truenas.roybales.com:3260
+      namePrefix: home-  # Override per cluster
+    zfs:
+      datasetParentName: volume1/iscsi/vols
+      detachedSnapshotsDatasetParentName: volume1/iscsi/snaps
+    nfs:
+      enabled: true
+      server: nas
+      basePath: /volume1
+      mediaPath: /volume1/media
+
+# Home lab network configuration
+network:
+  lan:
+    subnet: 192.168.1.0/24
+    defaultGateway: 192.168.1.1
+    dnsServers:
+      - 192.168.1.1
+
+# Home lab cluster defaults
+cluster:
+  top_level_domain: roybales.com
+  admin_email: rbales79@gmail.com
+  timezone: America/New_York
+
+# Topology overrides for home lab - minimal resources even on compact
+# This overrides the compact role's defaults to match SNO sizing
+topology:
+  # Use minimal replicas (SNO-style) even on compact
+  replicas:
+    default: 1        # Override compact's default of 2
+    critical: 2       # Override compact's default of 3
+
+  # Disable PDBs for minimal resource usage
+  pdb:
+    enabled: false    # Override compact's default of true
+
+  # Use SNO-sized resources
+  resources:
+    small:
+      requests:
+        memory: "128Mi"
+        cpu: "50m"
+      limits:
+        memory: "256Mi"
+        cpu: "200m"
+    medium:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+    large:
+      requests:
+        memory: "512Mi"
+        cpu: "250m"
+      limits:
+        memory: "1Gi"
+        cpu: "1000m"
+
+  # Disable HPA for minimal overhead
+  hpa:
+    enabled: false
+
+# Certificates - Let's Encrypt production for all home clusters
+certificates:
+  letsencrypt:
+    issuer: production
+    email: rbales79@gmail.com
+
+# External Secrets - Infisical for all home clusters
+externalSecrets:
+  secret: infisical-auth-secret
+  infisical:
+    projectSlug: hub
+    environmentSlug: prod
+
+# ArgoCD configuration
+argocd:
+  enabled: true
+
+# AMD GPU Operator defaults for home lab (all clusters have Radeon Vega 8)
+amdGpuOperator:
+  nodeLabeling:
+    enabled: true
+    additionalLabels:
+      amd.com/gpu.family: gfx902
+      amd.com/gpu.model: RadeonVega8
+
+# Application stacks defaults for home clusters
+# All disabled by default - enable in specific cluster values files
+applicationStacks:
+  ai:
+    enabled: false
+    apps: []
+  media:
+    enabled: false
+    apps: []
+  homeAutomation:
+    enabled: false
+    apps: []
+  productivity:
+    enabled: false
+    apps: []
+  infrastructure:
+    enabled: false
+    apps: []

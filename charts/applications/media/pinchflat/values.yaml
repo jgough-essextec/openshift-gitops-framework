@@ -1,0 +1,38 @@
+cluster:
+  top_level_domain: roybales.com
+  name: cluster
+  admin_email: rbales79@gmail.com
+  timezone: America/New_York
+  storage:
+    #config:
+    #  storageClassName: synology-iscsi
+    media:
+      nfs:
+        server: truenas.roybales.com
+        path: /mnt/volume1/media
+
+application:
+  name: Pinchflat
+  group: Media
+  icon: television-box
+  iconColor: ""
+  image: ""
+  description: "Your next YouTube media manager"
+  port: 8945
+  location: 0
+
+pods:
+  main:
+    image:
+      repository: ghcr.io/kieraneglin/pinchflat
+      # renovate: datasource=docker depName=ghcr.io/kieraneglin/pinchflat versioning=semver
+      tag: v2025.6.6
+      pullPolicy: IfNotPresent
+
+# Gatus monitoring
+gatus:
+  enabled: true
+  interval: 5m
+  conditions:
+    - "[STATUS] == 200"
+    - "[RESPONSE_TIME] < 3000"

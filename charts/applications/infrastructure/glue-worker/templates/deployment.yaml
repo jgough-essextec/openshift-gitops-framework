@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: glue-worker
+        image: "{{ .Values.pods.main.image.repository }}:{{ .Values.pods.main.image.tag }}"
+        ports:
+        - containerPort: {{ .Values.application.port }}
+          name: http
+          protocol: TCP
+        env:
+        - name: PAPERLESS_API_URL
+          value: "{{ .Values.env.PAPERLESS_API_URL }}"
+        - name: PAPERLESS_GPT_URL
+          value: "{{ .Values.env.PAPERLESS_GPT_URL }}"
+        - name: PAPERLESS_AI_URL
+          value: "{{ .Values.env.PAPERLESS_AI_URL }}"
+        - name: FLASK_ENV
+          value: "{{ .Values.env.FLASK_ENV }}"
+        - name: ENABLE_GPT_ROUTING
+          value: "{{ .Values.env.ENABLE_GPT_ROUTING }}"
+        - name: ENABLE_AI_REINDEX
+          value: "{{ .Values.env.ENABLE_AI_REINDEX }}"
+        resources:
+{{ .Values.pods.main.resources | toYaml | nindent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10

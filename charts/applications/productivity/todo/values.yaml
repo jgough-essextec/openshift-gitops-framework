@@ -1,0 +1,139 @@
+# Default values for todo application
+# This is a YAML-formatted file.
+
+# Backend configuration (FastAPI)
+backend:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: quay.io/rbales79/todo-backend
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  service:
+    type: ClusterIP
+    port: 8000
+    targetPort: 8000
+    name: http
+
+  persistence:
+    enabled: true
+    storageClass: ""  # Use cluster default
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    mountPath: /app/data
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  securityContext:
+    runAsNonRoot: true
+    # runAsUser and fsGroup are omitted to let OpenShift assign from allowed range
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
+
+  env:
+    - name: DATABASE_URL
+      value: "sqlite:////app/data/todos.db"
+
+# Frontend configuration (React)
+frontend:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: quay.io/rbales79/todo-frontend
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  service:
+    type: ClusterIP
+    port: 3000
+    targetPort: 8080
+    name: http
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+  securityContext:
+    runAsNonRoot: true
+    # runAsUser is omitted to let OpenShift assign from allowed range
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
+
+  env:
+    - name: REACT_APP_API_URL
+      value: "/api"
+
+# Route configuration (OpenShift)
+route:
+  enabled: true
+  host: ""  # Will be generated as todo.apps.<cluster>.<domain>
+  tls:
+    enabled: true
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
+# Ingress configuration (optional, disabled by default)
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: ""
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Gatus monitoring configuration
+gatus:
+  enabled: true
+  interval: 5m
+  conditions:
+    - "[STATUS] == 200"
+    - "[RESPONSE_TIME] < 3000"
+
+# Topology settings (inherited from cluster role)
+topology:
+  replicas:
+    default: 1
+  pdb:
+    enabled: false
+
+# Service account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# Common labels
+commonLabels: {}
+
+# Node selector
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Affinity rules
+affinity: {}

@@ -1,0 +1,53 @@
+cluster:
+  top_level_domain: roybales.com
+  name: cluster
+  admin_email: rbales79@gmail.com
+  timezone: America/New_York
+
+application:
+  name: Paperless AI
+  group: Paperless
+  icon: mdi:brain
+  iconColor: "#4CAF50"
+  image: "https://raw.githubusercontent.com/clusterzx/paperless-ai/main/icon.png"
+  description: "AI-powered document tagging and RAG chat for Paperless-ngx"
+  port: 3000
+  location: 103
+
+pods:
+  main:
+    image:
+      repository: docker.io/clusterzx/paperless-ai
+      # renovate: datasource=docker depName=docker.io/clusterzx/paperless-ai versioning=semver
+      tag: "latest"
+    env:
+      # Paperless-AI Configuration
+      PAPERLESS_URL: "http://paperless-ngx.paperless-ngx.svc.cluster.local:8000"
+      # PAPERLESS_API_TOKEN is injected from External Secrets
+      NODE_ENV: "production"
+      PORT: "3000"
+      HOST: "0.0.0.0"
+      # OpenShift compatibility - writable directories
+      PM2_HOME: "/app/data/.pm2"
+      NLTK_DATA: "/app/data/nltk_data"
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+
+persistence:
+  config:
+    enabled: true
+    size: 1Gi
+    # storageClass: ""  # Optional: specify storage class, or leave empty to use cluster default
+    accessMode: ReadWriteOnce
+
+gatus:
+  enabled: true
+  interval: 5m
+  conditions:
+    - "[STATUS] == 200"
+    - "[RESPONSE_TIME] < 5000"

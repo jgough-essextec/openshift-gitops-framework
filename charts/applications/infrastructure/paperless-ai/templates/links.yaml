@@ -1,0 +1,28 @@
+---
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: {{ .Release.Name }}-application-menu-link
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  location: ApplicationMenu
+  applicationMenu:
+    section: {{ .Values.application.group }}
+    imageURL: {{ .Values.application.image }}
+  href: https://{{ .Release.Name }}.apps.{{ .Values.cluster.name }}.{{ .Values.cluster.top_level_domain }}
+  text: {{ .Values.application.name }}
+---
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: {{ .Release.Name }}-namespace-dashboard-link
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  location: NamespaceDashboard
+  namespaceDashboard:
+    namespaces:
+    - {{ .Release.Namespace }}
+  href: https://{{ .Release.Name }}.apps.{{ .Values.cluster.name }}.{{ .Values.cluster.top_level_domain }}
+  text: Access Application

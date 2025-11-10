@@ -1,0 +1,235 @@
+{{- if .Values.clusterGroup.platformComponents }}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ .Values.clusterGroup.name }}-platform
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+spec:
+  ignoreApplicationDifferences:
+    - jsonPointers:
+        - /spec/syncPolicy
+  goTemplate: true
+  generators:
+    - list:
+        elements:
+          # Security & Secrets
+          {{- if .Values.clusterGroup.platformComponents.externalSecrets.enabled }}
+          - name: external-secrets-operator
+            syncWave: "0"
+            createNamespace: true
+          {{- end }}
+
+          # Certificates
+          {{- if .Values.clusterGroup.platformComponents.certManager.enabled }}
+          - name: certificates
+            syncWave: "10"
+            createNamespace: true
+          {{- end }}
+
+          # Node & Resource Management
+          {{- if .Values.clusterGroup.platformComponents.nfd.enabled }}
+          - name: openshift-nfd
+            syncWave: "20"
+            createNamespace: true
+          {{- end }}
+
+          {{- if .Values.clusterGroup.platformComponents.vpa.enabled }}
+          - name: vertical-pod-autoscaler
+            syncWave: "20"
+            createNamespace: false
+          {{- end }}
+
+          {{- if .Values.clusterGroup.platformComponents.goldilocks.enabled }}
+          - name: goldilocks
+            syncWave: "30"
+            createNamespace: true
+          {{- end }}
+
+          {{- if .Values.clusterGroup.platformComponents.systemReservation.enabled }}
+          - name: system-reservation
+            syncWave: "20"
+            createNamespace: false
+          {{- end }}
+
+          # Monitoring & Health
+          {{- if .Values.clusterGroup.platformComponents.gatus.enabled }}
+          - name: gatus
+            syncWave: "40"
+            createNamespace: true
+          {{- end }}
+
+          {{- if .Values.clusterGroup.platformComponents.customErrorPages.enabled }}
+          - name: custom-error-pages
+            syncWave: "40"
+            createNamespace: false
+          {{- end }}
+
+          # Hardware & Device Support
+          {{- if .Values.clusterGroup.platformComponents.genericDevicePlugin.enabled }}
+          - name: generic-device-plugin
+            syncWave: "30"
+            createNamespace: true
+          {{- end }}
+
+          # Storage Providers
+          {{- if .Values.clusterGroup.storage.truenas.enabled }}
+          - name: truenas
+            syncWave: "50"
+            appName: cluster-truenas
+            namespace: democratic-csi
+            createNamespace: true
+          {{- end }}
+
+          {{- if .Values.clusterGroup.storage.synology.enabled }}
+          - name: synology
+            syncWave: "50"
+            appName: cluster-synology
+            namespace: democratic-csi
+            createNamespace: true
+          {{- end }}
+
+          # Networking
+          {{- if .Values.clusterGroup.storage.metallb.enabled }}
+          - name: metallb
+            syncWave: "30"
+            createNamespace: false
+          {{- end }}
+
+          # GPU Operators
+          {{- if .Values.clusterGroup.platformComponents.amdGpu.enabled }}
+          - name: amd-gpu-operator
+            syncWave: "40"
+            createNamespace: false
+          {{- end }}
+
+          {{- if .Values.clusterGroup.platformComponents.intelGpu.enabled }}
+          - name: intel-gpu-operator
+            syncWave: "40"
+            createNamespace: false
+          {{- end }}
+
+          # Backup & HA
+          {{- if .Values.clusterGroup.platformComponents.kasten.enabled }}
+          - name: k10-kasten-operator
+            syncWave: "40"
+            createNamespace: false
+          {{- end }}
+
+          {{- if .Values.clusterGroup.platformComponents.keepalived.enabled }}
+          - name: keepalived-operator
+            syncWave: "40"
+            createNamespace: true
+          {{- end }}
+
+          # Multi-cluster Management
+          {{- if .Values.clusterGroup.platformComponents.acm.enabled }}
+          - name: advanced-cluster-management
+            syncWave: "60"
+            createNamespace: false
+          {{- end }}
+
+          {{- if .Values.clusterGroup.platformComponents.multiclusterEngine.enabled }}
+          - name: multicluster-engine
+            syncWave: "60"
+            createNamespace: false
+          {{- end }}
+
+          # Cluster Tweaks
+          {{- if .Values.clusterGroup.platformComponents.argoCdResourceConfig.enabled }}
+          - name: argocd-resource-config
+            syncWave: "200"
+            createNamespace: false
+          {{- end }}
+
+          {{- if .Values.clusterGroup.platformComponents.snapshotFinalizerRemover.enabled }}
+          - name: snapshot-finalizer-remover
+            syncWave: "200"
+            createNamespace: true
+          {{- end }}
+
+          {{- if .Values.clusterGroup.platformComponents.disableMasterSecondaryInterfaces.enabled }}
+          - name: disable-master-secondary-interfaces
+            syncWave: "200"
+            createNamespace: false
+          {{- end }}
+
+          {{- if .Values.clusterGroup.platformComponents.disableWorkerSecondaryInterfaces.enabled }}
+          - name: disable-worker-secondary-interfaces
+            syncWave: "200"
+            createNamespace: false
+          {{- end }}
+
+  template:
+    metadata:
+      name: '{{ "{{" }} default .name .appName {{ "}}" }}'
+      namespace: openshift-gitops
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{ "{{" }} default "50" .syncWave {{ "}}" }}'
+    spec:
+      ignoreDifferences:
+        - kind: Application
+          group: argoproj.io
+          jsonPointers:
+            - /spec/syncPolicy/automated
+        - kind: Namespace
+          jsonPointers:
+            - /metadata/labels
+            - /metadata/annotations
+      project: default
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ "{{" }} default .name .namespace {{ "}}" }}'
+      syncPolicy:
+        {{- if or (eq "{{ .name }}" "goldilocks") (eq "{{ .name }}" "gatus") }}
+        managedNamespaceMetadata:
+          labels:
+            goldilocks.fairwinds.com/enabled: "true"
+        {{- end }}
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace={{ "{{" }} if hasKey . "createNamespace" {{ "}}" }}{{ "{{" }} .createNamespace {{ "}}" }}{{ "{{" }} else {{ "}}" }}true{{ "{{" }} end {{ "}}" }}
+      source:
+        repoURL: {{ .Values.spec.source.repoURL }}
+        path: charts/platform/{{ "{{" }} .name {{ "}}" }}
+        targetRevision: {{ .Values.spec.source.targetRevision }}
+        helm:
+          valuesObject:
+            spec:
+{{ .Values.spec | toYaml | nindent 14 }}
+            # Pass cluster-specific configuration
+            cluster:
+{{ .Values.clusterGroup | toYaml | nindent 14 }}
+            # Pass all cluster-specific configs
+            {{- if .Values.clusterGroup.certificates }}
+            certificates:
+{{ .Values.clusterGroup.certificates | toYaml | nindent 14 }}
+            {{- end }}
+            {{- if .Values.clusterGroup.externalSecrets }}
+            externalSecrets:
+{{ .Values.clusterGroup.externalSecrets | toYaml | nindent 14 }}
+            {{- end }}
+            {{- if .Values.clusterGroup.network }}
+            network:
+{{ .Values.clusterGroup.network | toYaml | nindent 14 }}
+            {{- end }}
+            {{- if .Values.clusterGroup.storage }}
+            storage:
+{{ .Values.clusterGroup.storage | toYaml | nindent 14 }}
+            {{- end }}
+            {{- if .Values.clusterGroup.backup }}
+            backup:
+{{ .Values.clusterGroup.backup | toYaml | nindent 14 }}
+            {{- end }}
+            {{- if .Values.clusterGroup.argocd }}
+            argocd:
+{{ .Values.clusterGroup.argocd | toYaml | nindent 14 }}
+            {{- end }}
+            {{- if .Values.clusterGroup.amdGpuOperator }}
+            amdGpuOperator:
+{{ .Values.clusterGroup.amdGpuOperator | toYaml | nindent 14 }}
+            {{- end }}
+{{- end }}

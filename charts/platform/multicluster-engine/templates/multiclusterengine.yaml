@@ -1,0 +1,15 @@
+{{- if .Values.acm }}
+---
+apiVersion: multicluster.openshift.io/v1
+kind: MultiClusterEngine
+metadata:
+  name: multiclusterengine
+  namespace: {{ .Values.acm.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  {{- if .Values.acm.availabilityConfig }}
+  availabilityConfig: {{ .Values.acm.availabilityConfig }}
+  {{- end }}
+{{- end }}

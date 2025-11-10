@@ -1,0 +1,50 @@
+cluster:
+  top_level_domain: roybales.com
+  name: cluster
+  admin_email: rbales79@gmail.com
+  timezone: America/New_York
+
+application:
+  name: Paperless GPT
+  group: Paperless
+  icon: mdi:robot
+  iconColor: "#FF9800"
+  image: "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/resources/logo/web/svg/square.svg"
+  description: "GPT-powered document ingest, OCR, and metadata extraction"
+  port: 8080
+  location: 101
+
+pods:
+  main:
+    image:
+      repository: ghcr.io/rbales79/paperless-gpt
+      # renovate: datasource=docker depName=ghcr.io/rbales79/paperless-gpt versioning=semver
+      tag: "latest"
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+
+env:
+  PAPERLESS_API_URL: "http://paperless-ngx.paperless-ngx.svc.cluster.local:8000"
+  OPENAI_API_KEY: ""  # From External Secrets
+  GPT_MODEL: "gpt-4o"
+  ENABLE_OCR: "true"
+  ENABLE_METADATA_EXTRACTION: "true"
+
+route:
+  # host is constructed in template as: paperless-gpt.apps.<cluster.name>.<cluster.top_level_domain>
+  tls:
+    enabled: true
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
+gatus:
+  enabled: true
+  interval: 5m
+  conditions:
+    - "[STATUS] == 200"
+    - "[RESPONSE_TIME] < 3000"
