@@ -102,6 +102,7 @@ clusterGroup:
       enabled: true
       apps:
         # Active Apps
+        - bazarr             # Subtitle management
         - overseerr          # Request management for Plex/Jellyfin
         - prowlarr           # Indexer manager
         - radarr             # Movie collection manager
@@ -109,7 +110,6 @@ clusterGroup:
         - sonarr             # TV series collection manager
 
         # Available Apps (commented = disabled)
-        # - bazarr           # Subtitle management
         # - flaresolverr     # Cloudflare bypass proxy
         # - gaps             # Missing movie finder for Plex
         # - huntarr          # Bounty manager for *arr apps
