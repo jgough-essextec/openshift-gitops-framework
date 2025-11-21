@@ -90,6 +90,12 @@ spec:
             createNamespace: true
           {{- end }}
 
+          {{- if .Values.clusterGroup.platformComponents.aistorMinio.enabled }}
+          - name: aistor-minio-operator
+            syncWave: "50"
+            createNamespace: true
+          {{- end }}
+
           # Networking
           {{- if .Values.clusterGroup.storage.metallb.enabled }}
           - name: metallb

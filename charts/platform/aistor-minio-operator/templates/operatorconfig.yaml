@@ -1,0 +1,26 @@
+{{- if .Values.operatorconfig.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aistor-minio-operator-config
+  namespace: {{ .Values.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+data:
+  config.yaml: |
+    # AIStor MinIO Operator Configuration
+    operator:
+      watchNamespace: {{ .Values.namespace.name }}
+      reconcileFrequency: 60s
+    
+    minio:
+      defaultImage: "quay.io/minio/minio:latest"
+      defaultServiceType: "ClusterIP"
+      defaultReplicas: 4
+      
+    security:
+      enableTLS: true
+      certManager:
+        enabled: true
+        issuer: "letsencrypt-prod"
+{{- end }}

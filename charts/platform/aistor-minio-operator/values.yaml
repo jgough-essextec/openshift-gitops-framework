@@ -1,0 +1,28 @@
+cluster:
+  top_level_domain: example.com
+  name: cluster
+  admin_email: admin@example.com
+  timezone: America/New_York
+
+application:
+  name: AIStor MinIO Operator
+  group: Infrastructure
+  icon: simple-icons:minio
+  iconColor: "#c72e49"
+  image: "https://min.io/resources/img/logo/MINIO_Bird.png"
+  description: "High-performance S3-compatible object storage operator"
+
+subscription:
+  channel: stable
+  installPlanApproval: Automatic
+  name: aistor-minio-operator
+  source: community-operators
+  sourceNamespace: openshift-marketplace
+  # startingCSV: aistor-minio-operator.v1.0.0
+
+namespace:
+  create: true
+  name: aistor-minio-system
+
+operatorconfig:
+  enabled: true

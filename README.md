@@ -14,7 +14,7 @@
 
 This repository provides everything needed to manage OpenShift clusters via GitOps:
 
-- 🎯 **22 Platform Components** - Storage (TrueNAS/Synology), Secrets (ESO), Certificates, GPU Operators, Monitoring (Gatus/VPA), Backup (Kasten), Multi-cluster (ACM/MCE)
+- 🎯 **23 Platform Components** - Storage (TrueNAS/Synology/MinIO), Secrets (ESO), Certificates, GPU Operators, Monitoring (Gatus/VPA), Backup (Kasten), Multi-cluster (ACM/MCE)
 - 📦 **38+ Applications** - Media stack (Plex, \*arr apps), AI (Ollama, LiteLLM), Home Automation (Home Assistant), Productivity tools
 - 🏗️ **3-Level Architecture** - Bootstrap → Roles → ApplicationSets → Applications (Validated Patterns Framework)
 - ⚙️ **Hierarchical Config** - Global → Cluster Set → Cluster values inheritance
@@ -104,10 +104,10 @@ oc get applications -A -w
 
 ## Available Content
 
-### Platform Components (22)
+### Platform Components (23)
 
 **Security & Secrets:** External Secrets Operator, Certificates
-**Storage:** TrueNAS CSI, Synology CSI, MetalLB
+**Storage:** TrueNAS CSI, Synology CSI, AIStor MinIO Operator, MetalLB
 **Node & Resource:** OpenShift NFD, VPA, Goldilocks, GPU Operators
 **Monitoring:** Gatus, Custom Error Pages
 **Backup & HA:** Kasten K10, Keepalived

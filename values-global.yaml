@@ -127,6 +127,10 @@ global:
     keepalived:
       enabled: false  # Enable per cluster as needed
 
+    # Object Storage
+    aistorMinio:
+      enabled: false  # Enable per cluster as needed for S3-compatible storage
+
   # AMD GPU Operator node labeling defaults (Radeon Vega 8 integrated GPU)
   # Override per cluster with actual node names
   amdGpuOperator:

@@ -73,6 +73,7 @@ components:
     - vertical-pod-autoscaler
     - goldilocks
     - gatus
+    - aistor-minio-operator
 
   topology-specific:
     sno:
