@@ -4,7 +4,7 @@
     "dockerfile": "Dockerfile"
   },
   "mounts": [
-    "source=/root/.kube,target=/root/.kube,type=bind,consistency=cached"
+    "source=${localEnv:HOME}/.kube,target=/root/.kube,type=bind"
   ],
   "postAttachCommand": [
     "/bin/bash",

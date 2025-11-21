@@ -2,7 +2,7 @@
 set -eux
 
 # initialize pre-commit
-git config --global --add safe.directory /workspaces/argo-apps
+git config --global --add safe.directory /workspaces/openshift-gitops-platform
 # pre-commit install --overwrite
 
 echo "🚀 Setting up OpenShift CLI and cluster management..."
@@ -46,8 +46,8 @@ echo "⚙️  Setting up cluster management functions..."
 if ! grep -q "cluster-management.sh" /root/.bashrc; then
     echo "" >> /root/.bashrc
     echo "# OpenShift Multi-Cluster Management" >> /root/.bashrc
-    echo "if [ -f /workspaces/argo-apps/.devcontainer/cluster-management.sh ]; then" >> /root/.bashrc
-    echo "    source /workspaces/argo-apps/.devcontainer/cluster-management.sh" >> /root/.bashrc
+    echo "if [ -f /workspaces/openshift-gitops-platform/.devcontainer/cluster-management.sh ]; then" >> /root/.bashrc
+    echo "    source /workspaces/openshift-gitops-platform/.devcontainer/cluster-management.sh" >> /root/.bashrc
     echo "fi" >> /root/.bashrc
     echo "✅ Cluster management functions added to .bashrc"
 else
@@ -55,8 +55,8 @@ else
 fi
 
 # Source the cluster management script for the current session
-if [ -f /workspaces/argo-apps/.devcontainer/cluster-management.sh ]; then
-    source /workspaces/argo-apps/.devcontainer/cluster-management.sh
+if [ -f /workspaces/openshift-gitops-platform/.devcontainer/cluster-management.sh ]; then
+    source /workspaces/openshift-gitops-platform/.devcontainer/cluster-management.sh
 fi
 
 echo "🎉 Setup complete! Multi-cluster management ready."
