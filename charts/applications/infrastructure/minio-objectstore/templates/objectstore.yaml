@@ -1,0 +1,84 @@
+{{- if .Values.objectstore.enabled }}
+apiVersion: aistor.min.io/v1
+kind: ObjectStore
+metadata:
+  name: {{ .Values.objectstore.name }}
+  namespace: {{ .Values.objectstore.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+    {{- if .Values.objectstore.monitoring.enabled }}
+    prometheus.io/path: "{{ .Values.objectstore.monitoring.path }}"
+    prometheus.io/port: "{{ .Values.objectstore.monitoring.port }}"
+    prometheus.io/scrape: "{{ .Values.objectstore.monitoring.scrape }}"
+    {{- end }}
+  labels:
+    app: minio
+    app.kubernetes.io/name: minio-objectstore
+    app.kubernetes.io/instance: {{ .Values.objectstore.name }}
+    app.kubernetes.io/component: objectstore
+spec:
+  # Mount path for volumes
+  mountPath: /export
+  
+  # Pod management policy
+  podManagementPolicy: Parallel
+  
+  {{- if .Values.objectstore.security.tls.enabled }}
+  certificates:
+    disableAutoCert: false
+    {{- if .Values.objectstore.security.tls.certSecret }}
+    customCertificate:
+      secretName: {{ .Values.objectstore.security.tls.certSecret }}
+    {{- end }}
+  {{- end }}
+  
+  # Pool configuration
+  pools:
+  {{- range .Values.objectstore.pools }}
+  - name: {{ .name }}
+    servers: {{ .servers }}
+    volumesPerServer: {{ .volumesPerServer }}
+    {{- if .securityContext }}
+    securityContext:
+      {{- toYaml .securityContext | nindent 6 }}
+    {{- end }}
+    volumeClaimTemplate:
+      apiVersion: v1
+      kind: persistentvolumeclaims
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ $.Values.objectstore.storage.volumeSize }}
+        {{- if $.Values.objectstore.storage.storageClassName }}
+        storageClassName: {{ $.Values.objectstore.storage.storageClassName }}
+        {{- end }}
+  {{- end }}
+  
+  {{- if .Values.objectstore.resources }}
+  # Resource configuration
+  resources:
+    {{- toYaml .Values.objectstore.resources | nindent 4 }}
+  {{- end }}
+  
+  # Service configuration
+  serviceMetadata:
+    {{- if .Values.objectstore.service }}
+    serviceAnnotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    {{- end }}
+  
+  # Environment variables for configuration
+  env:
+    - name: MINIO_PROMETHEUS_AUTH_TYPE
+      value: "public"
+    {{- if .Values.objectstore.security.rootUser }}
+    - name: MINIO_ROOT_USER
+      value: {{ .Values.objectstore.security.rootUser | quote }}
+    {{- end }}
+    {{- if .Values.objectstore.security.rootPassword }}
+    - name: MINIO_ROOT_PASSWORD
+      value: {{ .Values.objectstore.security.rootPassword | quote }}
+    {{- end }}
+{{- end }}

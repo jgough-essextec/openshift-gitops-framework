@@ -1,0 +1,23 @@
+{{- if .Values.objectstore.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Values.objectstore.name }}-metrics
+  namespace: {{ .Values.objectstore.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "70"
+  labels:
+    app: minio
+    app.kubernetes.io/name: minio-objectstore
+    app.kubernetes.io/instance: {{ .Values.objectstore.name }}
+    app.kubernetes.io/component: monitoring
+spec:
+  selector:
+    matchLabels:
+      v1.min.io/tenant: {{ .Values.objectstore.name }}
+  endpoints:
+  - port: http-minio
+    path: {{ .Values.objectstore.monitoring.path }}
+    interval: 30s
+    scrapeTimeout: 10s
+{{- end }}

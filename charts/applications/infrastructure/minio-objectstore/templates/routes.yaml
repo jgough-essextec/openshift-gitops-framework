@@ -1,0 +1,61 @@
+{{- if and .Values.route.enabled .Values.route.api }}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ .Values.objectstore.name }}-api
+  namespace: {{ .Values.objectstore.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "60"
+  labels:
+    app: minio
+    app.kubernetes.io/name: minio-objectstore
+    app.kubernetes.io/instance: {{ .Values.objectstore.name }}
+    app.kubernetes.io/component: api
+spec:
+  host: {{ .Values.route.api.host }}.{{ .Values.cluster.top_level_domain }}
+  to:
+    kind: Service
+    name: {{ .Values.objectstore.name }}-hl
+    weight: 100
+  port:
+    targetPort: {{ .Values.objectstore.service.port | default 9000 }}
+  {{- if .Values.route.api.termination }}
+  tls:
+    termination: {{ .Values.route.api.termination }}
+    {{- if .Values.route.api.insecureEdgeTerminationPolicy }}
+    insecureEdgeTerminationPolicy: {{ .Values.route.api.insecureEdgeTerminationPolicy }}
+    {{- end }}
+  {{- end }}
+  wildcardPolicy: None
+{{- end }}
+---
+{{- if and .Values.route.enabled .Values.route.console }}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ .Values.objectstore.name }}-console
+  namespace: {{ .Values.objectstore.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "60"
+  labels:
+    app: minio
+    app.kubernetes.io/name: minio-objectstore
+    app.kubernetes.io/instance: {{ .Values.objectstore.name }}
+    app.kubernetes.io/component: console
+spec:
+  host: {{ .Values.route.console.host }}.{{ .Values.cluster.top_level_domain }}
+  to:
+    kind: Service
+    name: {{ .Values.objectstore.name }}-console
+    weight: 100
+  port:
+    targetPort: {{ .Values.objectstore.service.consolePort | default 9001 }}
+  {{- if .Values.route.console.termination }}
+  tls:
+    termination: {{ .Values.route.console.termination }}
+    {{- if .Values.route.console.insecureEdgeTerminationPolicy }}
+    insecureEdgeTerminationPolicy: {{ .Values.route.console.insecureEdgeTerminationPolicy }}
+    {{- end }}
+  {{- end }}
+  wildcardPolicy: None
+{{- end }}

@@ -204,6 +204,7 @@ global:
       apps:
         # - adsb               # Aircraft tracking (FlightAware/ADS-B)
         # - glue-worker        # Custom Python automation workers
+        # - minio-objectstore  # S3-compatible object storage
         # - paperless-ai       # AI-powered document processing
         # - paperless-gpt      # GPT integration for Paperless
         # - paperless-ngx      # Document management system

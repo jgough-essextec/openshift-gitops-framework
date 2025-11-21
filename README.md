@@ -119,7 +119,7 @@ oc get applications -A -w
 **Media (21):** Plex, Sonarr, Radarr, Overseerr, Prowlarr, Bazarr, Tautulli, Lidarr, Readarr, Kapowarr, Kavita, SABnzbd, and more
 **Home Automation (4):** Home Assistant, Node-RED, EMQX Operator, Zwavejs2MQTT
 **Productivity (6):** Bookmarks, CyberChef, Excalidraw, IT-Tools, Startpunkt, Terraform Enterprise
-**Infrastructure (4):** Paperless suite, ADSB tracking, Glue-Worker
+**Infrastructure (5):** MinIO ObjectStore, Paperless suite, ADSB tracking, Glue-Worker
 
 <details>
 <summary>📋 Click for complete application list</summary>
@@ -132,7 +132,7 @@ oc get applications -A -w
 
 **Productivity:** Bookmarks, CyberChef, Excalidraw, IT-Tools, Startpunkt, Terraform Enterprise
 
-**Infrastructure:** Paperless-NGX, Paperless-GPT, Paperless-Worker, ADSB, Glue-Worker
+**Infrastructure:** MinIO ObjectStore, Paperless-NGX, Paperless-GPT, Paperless-Worker, ADSB, Glue-Worker
 
 </details>
 
