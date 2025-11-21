@@ -15,14 +15,14 @@ application:
 subscription:
   channel: stable
   installPlanApproval: Automatic
-  name: aistor-minio-operator
-  source: community-operators
+  name: minio-object-store-operator
+  source: certified-operators
   sourceNamespace: openshift-marketplace
-  # startingCSV: aistor-minio-operator.v1.0.0
+  # startingCSV: minio-object-store-operator.v2025.8.19175300
 
 namespace:
   create: true
-  name: aistor-minio-system
+  name: aistor
 
 operatorconfig:
   enabled: true

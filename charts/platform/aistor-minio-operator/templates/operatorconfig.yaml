@@ -2,21 +2,21 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: aistor-minio-operator-config
+  name: minio-operator-config
   namespace: {{ .Values.namespace.name }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 data:
   config.yaml: |
-    # AIStor MinIO Operator Configuration
+    # MinIO AIStor Object Store Operator Configuration
     operator:
       watchNamespace: {{ .Values.namespace.name }}
       reconcileFrequency: 60s
     
-    minio:
-      defaultImage: "quay.io/minio/minio:latest"
+    objectstore:
+      defaultImage: "quay.io/minio/aistor:latest"
       defaultServiceType: "ClusterIP"
-      defaultReplicas: 4
+      defaultPools: 1
       
     security:
       enableTLS: true

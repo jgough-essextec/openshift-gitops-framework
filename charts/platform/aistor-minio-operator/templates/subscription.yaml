@@ -1,7 +1,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: {{ .Values.subscription.name }}
+  name: minio-object-store-operator
   namespace: {{ .Values.namespace.name | default "openshift-operators" }}
   annotations:
     argocd.argoproj.io/sync-wave: "0"
@@ -9,7 +9,7 @@ spec:
   channel: {{ .Values.subscription.channel | default "stable" }}
   installPlanApproval: {{ .Values.subscription.installPlanApproval | default "Automatic" }}
   name: {{ .Values.subscription.name }}
-  source: {{ .Values.subscription.source | default "community-operators" }}
+  source: {{ .Values.subscription.source | default "certified-operators" }}
   sourceNamespace: {{ .Values.subscription.sourceNamespace | default "openshift-marketplace" }}
   {{- if .Values.subscription.startingCSV }}
   startingCSV: {{ .Values.subscription.startingCSV }}
